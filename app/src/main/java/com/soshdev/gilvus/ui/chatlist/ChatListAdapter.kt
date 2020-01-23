@@ -8,7 +8,8 @@ import com.soshdev.gilvus.ui.base.BaseRecyclerViewAdapter
 import com.soshdev.gilvus.ui.base.BaseViewHolder
 import timber.log.Timber
 
-class ChatListAdapter : BaseRecyclerViewAdapter<Chat, BaseViewHolder<ItemUserBinding>>() {
+class ChatListAdapter(private val userClicked: (userId: Int) -> Unit) :
+    BaseRecyclerViewAdapter<Chat, BaseViewHolder<ItemUserBinding>>() {
 
     override fun createHolder(
         inflater: LayoutInflater,
@@ -18,10 +19,10 @@ class ChatListAdapter : BaseRecyclerViewAdapter<Chat, BaseViewHolder<ItemUserBin
         return BaseViewHolder(ItemUserBinding.inflate(inflater, root, false))
     }
 
-    override fun bindHolder(item: Chat, holder: BaseViewHolder<ItemUserBinding>, position: Int)
-    =    holder.binding.run {
+    override fun bindHolder(item: Chat, holder: BaseViewHolder<ItemUserBinding>, position: Int) =
+        holder.binding.run {
             txUserName.text = item.name
-            Timber.d("hey ${item.name}")
+            layoutRoot.setOnClickListener { Timber.d("click");userClicked.invoke(item.id) }
         }
 
 }

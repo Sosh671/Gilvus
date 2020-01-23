@@ -9,17 +9,17 @@
         <!--menu dots color-->
         <item name="actionOverflowButtonStyle">@style/MyOverflowButtonStyle</item>
         <!--toolbar text color-->
-        <item name="titleTextColor">@android:color/black</item>
+        <item name="titleTextColor">@color/dark_grey</item>
         <!--toolbar icon color-->
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
     </style>
 
     <style name="MyOverflowButtonStyle" parent="Widget.AppCompat.ActionButton.Overflow">
-        <item name="android:tint">@android:color/black</item>
+        <item name="android:tint">@color/dark_grey</item>
     </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
-        <item name="color">@android:color/black</item>
+        <item name="color">@color/dark_grey</item>
     </style>
 
     <style name="GilvusTheme.NoActionBar">

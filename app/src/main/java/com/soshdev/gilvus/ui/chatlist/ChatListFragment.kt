@@ -5,16 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.soshdev.gilvus.R
 import com.soshdev.gilvus.databinding.FragmentChatListBinding
 import com.soshdev.gilvus.ui.base.BaseFragment
 import org.koin.android.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 class ChatListFragment : BaseFragment() {
 
     private lateinit var binding: FragmentChatListBinding
     private val vm: ChatListViewModel by viewModel()
-    private val adapter = ChatListAdapter()
+    private val adapter = ChatListAdapter {
+        Timber.d("navigate $it")
+        findNavController().navigate(ChatListFragmentDirections.chatDestination(it))
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,7 +29,6 @@ class ChatListFragment : BaseFragment() {
         binding = FragmentChatListBinding.inflate(inflater, container, false)
         return binding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
