@@ -37,7 +37,7 @@ android {
 dependencies {
     def koin_version = '2.0.1'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.core:core-ktx:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -49,28 +49,32 @@ dependencies {
 
     implementation 'com.google.android.material:material:1.0.0'
 
+    // room
     implementation "androidx.room:room-runtime:2.2.3"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     kapt "androidx.room:room-compiler:2.2.3"
     implementation "androidx.room:room-ktx:2.2.3"
     implementation "androidx.room:room-rxjava2:2.2.3"
 
+    // rx
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    // Because RxAndroid releases are few and far between, it is recommended you also
+    // explicitly depend on RxJava's latest version for bug fixes and new features.
+    // (see https://github.com/ReactiveX/RxJava/releases for latest 2.x.x version)
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.13'
+
     implementation "com.jakewharton.timber:timber:4.7.1"
-    implementation "com.mikhaellopez:circularimageview:4.0.2"
 
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
-    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.0'
-
+    // koin
     implementation "org.koin:koin-core:$koin_version"
     implementation "org.koin:koin-android-viewmodel:$koin_version"
 
     // Stetho
     implementation "com.facebook.stetho:stetho:1.5.1"
     implementation "com.facebook.stetho:stetho-okhttp3:1.5.1"
-    //Input Mask
-    implementation "com.redmadrobot:input-mask-android:5.0.0"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
