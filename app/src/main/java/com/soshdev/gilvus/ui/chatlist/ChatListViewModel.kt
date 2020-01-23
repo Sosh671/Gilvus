@@ -3,9 +3,9 @@ package com.soshdev.gilvus.ui.chatlist
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.soshdev.gilvus.data.GilvusDb
 import com.soshdev.gilvus.data.NetworkRepository
 import com.soshdev.gilvus.data.models.User
-import com.soshdev.gilvus.db.GilvusDb
 import com.soshdev.gilvus.ui.base.BaseViewModel
 
 class ChatListViewModel(

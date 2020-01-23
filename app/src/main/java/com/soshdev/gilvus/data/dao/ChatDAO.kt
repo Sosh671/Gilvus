@@ -1,4 +1,4 @@
-package com.soshdev.gilvus.db.dao
+package com.soshdev.gilvus.data.dao
 
 import androidx.room.Dao
 import androidx.room.Insert

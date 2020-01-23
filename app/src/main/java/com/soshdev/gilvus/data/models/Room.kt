@@ -3,12 +3,12 @@ package com.soshdev.gilvus.data.models
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "users")
-data class User(
+@Entity(tableName = "rooms")
+data class Room(
 
     @PrimaryKey
-    val id: Int,
+    val id: Long,
 
     val name: String,
-    val avatarUrl: String
+    val creationalDate: Long
 )

@@ -5,9 +5,9 @@ import android.database.sqlite.SQLiteDatabase
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.soshdev.gilvus.data.GilvusDb
 import com.soshdev.gilvus.data.MockedNetworkRepositoryImpl
 import com.soshdev.gilvus.data.NetworkRepository
-import com.soshdev.gilvus.db.GilvusDb
 import com.soshdev.gilvus.ui.chatlist.ChatListViewModel
 import org.koin.dsl.module
 
@@ -22,7 +22,7 @@ val appModule = module {
                 for (i in 1..3) {
                     cv.put("id", i)
                     cv.put("name", "User $i")
-                    cv.put("imgUrl", "")
+                    cv.put("avatarUrl", "")
                     db.insert("users", SQLiteDatabase.CONFLICT_IGNORE, cv)
                 }
             }
