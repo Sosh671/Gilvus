@@ -23,6 +23,6 @@ data class Member(
     @PrimaryKey
     val id: Long,
 
-    val userId: Long,
-    val roomId: Long
+    val roomId: Long,
+    val userId: Long
 )
