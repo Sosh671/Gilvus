@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.soshdev.gilvus.ui.chatlist.ChatListFragment"
+        android:name="com.soshdev.gilvus.ui.rooms.RoomsFragment"
         tools:layout="@layout/fragment_chat_list">
 
         <action
@@ -23,7 +23,7 @@
 
         <argument
             android:name="user_id"
-            app:argType="integer" />
+            app:argType="long" />
 
     </fragment>
 

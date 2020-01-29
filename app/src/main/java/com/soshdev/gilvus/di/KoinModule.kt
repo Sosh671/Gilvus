@@ -5,10 +5,11 @@ import android.database.sqlite.SQLiteDatabase
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.soshdev.gilvus.data.DbRepository
 import com.soshdev.gilvus.data.GilvusDb
 import com.soshdev.gilvus.data.MockedNetworkRepositoryImpl
 import com.soshdev.gilvus.data.NetworkRepository
-import com.soshdev.gilvus.ui.chatlist.ChatListViewModel
+import com.soshdev.gilvus.ui.rooms.RoomsViewModel
 import org.koin.dsl.module
 
 val appModule = module {
@@ -26,7 +27,8 @@ val appModule = module {
             .build()
     }
 
-    factory { ChatListViewModel(get(), get()) }
+    factory { DbRepository(get()) }
+    factory { RoomsViewModel(get(), get()) }
 }
 
 fun populateDbWithMockedData(db: SupportSQLiteDatabase) {

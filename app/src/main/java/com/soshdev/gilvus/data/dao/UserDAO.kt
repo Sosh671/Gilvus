@@ -6,7 +6,7 @@ import androidx.room.Query
 import com.soshdev.gilvus.data.models.User
 
 @Dao
-interface ChatDAO {
+interface UserDAO {
 
     @Query("SELECT * FROM users")
     fun getUsers(): List<User>

@@ -1,4 +1,4 @@
-package com.soshdev.gilvus.ui.chatlist
+package com.soshdev.gilvus.ui.rooms
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,16 +10,13 @@ import com.soshdev.gilvus.R
 import com.soshdev.gilvus.databinding.FragmentChatListBinding
 import com.soshdev.gilvus.ui.base.BaseFragment
 import org.koin.android.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
-class ChatListFragment : BaseFragment() {
+class RoomsFragment : BaseFragment() {
 
     private lateinit var binding: FragmentChatListBinding
-    private val vm: ChatListViewModel by viewModel()
-    private val adapter = ChatListAdapter {
-        Timber.d("navigate $it")
-        findNavController().navigate(ChatListFragmentDirections.chatDestination(it))
-    }
+    private val vm: RoomsViewModel by viewModel()
+    private val adapter =
+        RoomsAdapter { findNavController().navigate(RoomsFragmentDirections.chatDestination(it)) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,12 +32,13 @@ class ChatListFragment : BaseFragment() {
 
         setupToolbar(binding.toolbar, R.string.home)
         initRecyclerView()
-        
-        vm.chats.observe(viewLifecycleOwner, Observer {
+
+        vm.rooms.observe(viewLifecycleOwner, Observer {
+            adapter.clear()
             adapter.add(it)
         })
 
-        vm.getChats()
+        vm.getRooms()
     }
 
     private fun initRecyclerView() = with(binding) {
