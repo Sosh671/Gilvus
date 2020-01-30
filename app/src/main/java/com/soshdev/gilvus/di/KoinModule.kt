@@ -9,6 +9,7 @@ import com.soshdev.gilvus.data.DbRepository
 import com.soshdev.gilvus.data.GilvusDb
 import com.soshdev.gilvus.data.MockedNetworkRepositoryImpl
 import com.soshdev.gilvus.data.NetworkRepository
+import com.soshdev.gilvus.ui.chat.ChatViewModel
 import com.soshdev.gilvus.ui.rooms.RoomsViewModel
 import org.koin.dsl.module
 
@@ -29,6 +30,7 @@ val appModule = module {
 
     factory { DbRepository(get()) }
     factory { RoomsViewModel(get(), get()) }
+    factory { ChatViewModel(get()) }
 }
 
 fun populateDbWithMockedData(db: SupportSQLiteDatabase) {

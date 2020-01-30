@@ -2,6 +2,7 @@ package com.soshdev.gilvus.data
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.soshdev.gilvus.data.dao.MessageDAO
 import com.soshdev.gilvus.data.dao.RoomDAO
 import com.soshdev.gilvus.data.dao.UserDAO
 import com.soshdev.gilvus.data.models.Member
@@ -23,4 +24,6 @@ abstract class GilvusDb : RoomDatabase() {
     abstract fun usersDao(): UserDAO
 
     abstract fun roomsDao(): RoomDAO
+
+    abstract fun messagesDao(): MessageDAO
 }

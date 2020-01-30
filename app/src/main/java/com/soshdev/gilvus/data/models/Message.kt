@@ -2,6 +2,7 @@ package com.soshdev.gilvus.data.models
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 
 @Entity(
@@ -18,7 +19,7 @@ import androidx.room.PrimaryKey
         childColumns = arrayOf("roomId")
     )]
 )
-data class Message(
+data class Message @JvmOverloads constructor(
 
     @PrimaryKey
     val id: Long,
@@ -26,5 +27,8 @@ data class Message(
     val roomId: Long,
     val userId: Long,
     val date: Long,
-    val text: String
+    val text: String,
+
+    @Ignore
+    var sentByCurrentUser: Boolean = false
 )

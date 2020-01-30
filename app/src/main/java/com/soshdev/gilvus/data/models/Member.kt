@@ -18,7 +18,7 @@ import androidx.room.PrimaryKey
         childColumns = arrayOf("roomId")
     )]
 )
-data class Member(
+data class Member (
 
     @PrimaryKey
     val id: Long,

@@ -8,7 +8,7 @@ import timber.log.Timber
 abstract class BaseRecyclerViewAdapter<ITEM, VH: RecyclerView.ViewHolder>
     : RecyclerView.Adapter<VH>() {
 
-    private val items = ArrayList<ITEM>()
+    protected val items = ArrayList<ITEM>()
 
     abstract fun createHolder(inflater: LayoutInflater, root: ViewGroup, viewType: Int): VH
 
