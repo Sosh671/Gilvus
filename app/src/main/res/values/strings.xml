@@ -11,4 +11,7 @@
     <string name="home">Home</string>
     <string name="send">Send</string>
     <string name="Say">Say</string>
+    <string name="name">Name</string>
+    <string name="apply">Apply</string>
+    <string name="your_name">Your name</string>
 </resources>

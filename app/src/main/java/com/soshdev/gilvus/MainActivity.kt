@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -32,8 +34,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        binding.navView.setupWithNavController(navController)
-
+//        binding.navView.setupWithNavController(navController)
+        setupDrawer()
     }
 
     fun setupToolbar(toolbar: Toolbar, title: String?) {
@@ -54,6 +56,36 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun setupDrawer() {
+        binding.navView.setupWithNavController(navController)
+        binding.navView.setNavigationItemSelectedListener { menuItem ->
+            return@setNavigationItemSelectedListener when (menuItem.itemId) {
+//                R.id.exit -> {
+//                    setDrawerState(open = false)
+//                    viewModel.logout()
+//                    true
+//                }
+                else -> {
+                    if (!menuItem.isChecked) {
+                        val options = NavOptions.Builder()
+                            .setLaunchSingleTop(true)
+                            .setPopUpTo(R.id.nav_home, false)
+                        navController.navigate(menuItem.itemId, null, options.build())
+                    }
+                    binding.drawerLayout.closeDrawer(GravityCompat.START)
+                    true
+                }
+            }
+        }
+        binding.navView.getHeaderView(0).setOnClickListener {
+            navController.currentDestination?.let {
+                if (it.id != R.id.profile) {
+                    navController.navigate(R.id.profile)
+                    binding.drawerLayout.closeDrawer(GravityCompat.START)
+                }
+            }
+        }
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main, menu)
