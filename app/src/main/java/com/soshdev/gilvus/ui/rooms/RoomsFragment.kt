@@ -11,6 +11,7 @@ import com.soshdev.gilvus.databinding.FragmentChatListBinding
 import com.soshdev.gilvus.ui.base.BaseFragment
 import org.koin.android.viewmodel.ext.android.viewModel
 
+
 class RoomsFragment : BaseFragment() {
 
     private lateinit var binding: FragmentChatListBinding
@@ -32,6 +33,10 @@ class RoomsFragment : BaseFragment() {
 
         setupToolbar(binding.toolbar, R.string.home)
         initRecyclerView()
+
+        binding.fab.setOnClickListener {
+            findNavController().navigate(RoomsFragmentDirections.newRoomDestination())
+        }
 
         vm.rooms.observe(viewLifecycleOwner, Observer {
             adapter.clear()

@@ -14,6 +14,10 @@
             android:id="@+id/chat_destination"
             app:destination="@+id/chat" />
 
+        <action
+            android:id="@+id/new_room_destination"
+            app:destination="@+id/new_room" />
+
     </fragment>
 
     <fragment
@@ -31,5 +35,10 @@
         android:id="@+id/profile"
         android:name="com.soshdev.gilvus.ui.profile.ProfileFragment"
         tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/new_room"
+        android:name="com.soshdev.gilvus.ui.newroom.NewRoomFragment"
+        tools:layout="@layout/fragment_newroom" />
 
 </navigation>

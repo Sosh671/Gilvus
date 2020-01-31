@@ -43,9 +43,7 @@ abstract class BaseRecyclerViewAdapter<ITEM, VH: RecyclerView.ViewHolder>
     }
 
     fun add(list: List<ITEM>) {
-        Timber.d("size ${list.size}")
         items.addAll(list)
         notifyItemRangeChanged(items.size - list.size, list.size)
-//        notifyDataSetChanged()
     }
 }
