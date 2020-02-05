@@ -27,15 +27,36 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <ImageView
+                android:id="@+id/img_checked"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_check_black_24dp"
+                android:tint="@color/colorAccent"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
-                android:id="@+id/tx_title"
-                android:layout_width="wrap_content"
+                android:id="@+id/tx_name"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                app:layout_constraintBottom_toBottomOf="@id/img_avatar"
+                android:layout_marginTop="8dp"
                 app:layout_constraintStart_toEndOf="@id/img_avatar"
                 app:layout_constraintTop_toTopOf="@+id/img_avatar"
                 tools:text="John Doe" />
+
+            <TextView
+                android:id="@+id/tx_phone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/no_phone_number_detected"
+                app:layout_constraintStart_toEndOf="@id/img_avatar"
+                app:layout_constraintTop_toBottomOf="@+id/tx_name" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

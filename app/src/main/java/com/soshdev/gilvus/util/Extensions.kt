@@ -1,5 +1,8 @@
 package com.soshdev.gilvus.util
 
+import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import io.reactivex.Single
 import timber.log.Timber
 
@@ -18,3 +21,6 @@ fun Array<String>.printContents(/*printMethod: (String) -> Unit*/) {
         Timber.d(string)
     }
 }
+
+fun View.begone() { visibility = GONE }
+fun View.showUp() { visibility = VISIBLE }

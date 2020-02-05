@@ -1,9 +1,9 @@
-package com.soshdev.gilvus.data.dao
+package com.soshdev.gilvus.data.db.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.soshdev.gilvus.data.models.User
+import com.soshdev.gilvus.data.db.models.User
 
 @Dao
 interface UserDAO {

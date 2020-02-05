@@ -6,9 +6,9 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.soshdev.gilvus.data.DbRepository
-import com.soshdev.gilvus.data.GilvusDb
+import com.soshdev.gilvus.data.db.GilvusDb
 import com.soshdev.gilvus.data.MockedNetworkRepositoryImpl
-import com.soshdev.gilvus.data.NetworkRepository
+import com.soshdev.gilvus.data.network.NetworkRepository
 import com.soshdev.gilvus.ui.chat.ChatViewModel
 import com.soshdev.gilvus.ui.newroom.NewRoomViewModel
 import com.soshdev.gilvus.ui.profile.ProfileViewModel

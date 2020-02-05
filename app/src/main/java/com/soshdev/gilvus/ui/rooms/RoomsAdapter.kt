@@ -2,7 +2,7 @@ package com.soshdev.gilvus.ui.rooms
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.soshdev.gilvus.data.models.Room
+import com.soshdev.gilvus.data.db.models.Room
 import com.soshdev.gilvus.databinding.ItemRoomBinding
 import com.soshdev.gilvus.ui.base.BaseRecyclerViewAdapter
 import com.soshdev.gilvus.ui.base.BaseViewHolder

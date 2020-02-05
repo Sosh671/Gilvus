@@ -3,7 +3,7 @@ package com.soshdev.gilvus.ui.chat
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
-import com.soshdev.gilvus.data.models.Message
+import com.soshdev.gilvus.data.db.models.Message
 import com.soshdev.gilvus.databinding.ItemMessageReceivedBinding
 import com.soshdev.gilvus.databinding.ItemMessageSentBinding
 import com.soshdev.gilvus.ui.base.BaseRecyclerViewAdapter

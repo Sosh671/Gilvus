@@ -1,14 +1,14 @@
-package com.soshdev.gilvus.data
+package com.soshdev.gilvus.data.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.soshdev.gilvus.data.dao.MessageDAO
-import com.soshdev.gilvus.data.dao.RoomDAO
-import com.soshdev.gilvus.data.dao.UserDAO
-import com.soshdev.gilvus.data.models.Member
-import com.soshdev.gilvus.data.models.Message
-import com.soshdev.gilvus.data.models.Room
-import com.soshdev.gilvus.data.models.User
+import com.soshdev.gilvus.data.db.dao.MessageDAO
+import com.soshdev.gilvus.data.db.dao.RoomDAO
+import com.soshdev.gilvus.data.db.dao.UserDAO
+import com.soshdev.gilvus.data.db.models.Member
+import com.soshdev.gilvus.data.db.models.Message
+import com.soshdev.gilvus.data.db.models.Room
+import com.soshdev.gilvus.data.db.models.User
 
 @Database(
     entities = [

@@ -3,7 +3,7 @@ package com.soshdev.gilvus.ui.chat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.soshdev.gilvus.data.DbRepository
-import com.soshdev.gilvus.data.models.Message
+import com.soshdev.gilvus.data.db.models.Message
 import com.soshdev.gilvus.ui.base.BaseViewModel
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy

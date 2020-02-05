@@ -1,8 +1,8 @@
-package com.soshdev.gilvus.data.dao
+package com.soshdev.gilvus.data.db.dao
 
 import androidx.room.Dao
 import androidx.room.Query
-import com.soshdev.gilvus.data.models.Message
+import com.soshdev.gilvus.data.db.models.Message
 import io.reactivex.Single
 
 @Dao

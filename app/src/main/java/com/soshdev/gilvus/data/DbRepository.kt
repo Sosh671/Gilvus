@@ -1,6 +1,7 @@
 package com.soshdev.gilvus.data
 
-import com.soshdev.gilvus.data.models.Message
+import com.soshdev.gilvus.data.db.GilvusDb
+import com.soshdev.gilvus.data.db.models.Message
 import com.soshdev.gilvus.util.CurrentUserCompanion
 import com.soshdev.gilvus.util.androidSubscribe
 import io.reactivex.Single
