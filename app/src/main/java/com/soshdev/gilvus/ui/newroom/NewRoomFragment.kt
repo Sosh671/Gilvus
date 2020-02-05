@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.Observer
 import com.soshdev.gilvus.R
 import com.soshdev.gilvus.databinding.FragmentNewroomBinding
 import com.soshdev.gilvus.ui.base.BaseFragment
@@ -20,9 +21,7 @@ class NewRoomFragment : BaseFragment() {
 
     private lateinit var binding: FragmentNewroomBinding
     private val vm: NewRoomViewModel by viewModel()
-    private val adapter = NewRoomAdapter {
-        binding.edTitle.setText(it)
-    }
+    private val adapter = NewRoomAdapter { vm.selectContact(it) }
     private val REQUEST_READ_CONTACTS = 22
 
     override fun onCreateView(
@@ -39,8 +38,13 @@ class NewRoomFragment : BaseFragment() {
 
         setupToolbar(binding.toolbar, R.string.home)
         initRecyclerView()
-
         getContactList()
+
+        vm.roomTitle.observe(viewLifecycleOwner, Observer { binding.edTitle.setText(it)} )
+
+        binding.fabSave.setOnClickListener {
+            Timber.d("selected ${vm.getSelectedContacts()}")
+        }
     }
 
     private fun initRecyclerView() = with(binding) {
@@ -55,9 +59,7 @@ class NewRoomFragment : BaseFragment() {
                 requestPermission()
             } else {
                 val helper = ContactsHelper(it)
-
                 val list = helper.getContacts()
-                Timber.d("let $list")
 
                 adapter.add(list)
             }

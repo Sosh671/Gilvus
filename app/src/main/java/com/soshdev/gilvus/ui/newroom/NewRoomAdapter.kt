@@ -9,7 +9,7 @@ import com.soshdev.gilvus.ui.base.BaseViewHolder
 import com.soshdev.gilvus.util.begone
 import com.soshdev.gilvus.util.showUp
 
-class NewRoomAdapter(private val userClicked: (title: String) -> Unit) :
+class NewRoomAdapter(private val userClicked: (contact: Contact) -> Unit) :
     BaseRecyclerViewAdapter<Contact, BaseViewHolder<ItemContactBinding>>() {
 
     private val selectedContacts = ArrayList<Contact>()
@@ -27,6 +27,9 @@ class NewRoomAdapter(private val userClicked: (title: String) -> Unit) :
             txName.text = item.name
             item.phone?.let { txPhone.text = it}
             layoutRoot.setOnClickListener {
+                if (item.phone == null)
+                    return@setOnClickListener
+                
                 if (selectedContacts.contains(item)) {
                     selectedContacts.remove(item)
                     imgChecked.begone()
@@ -35,19 +38,7 @@ class NewRoomAdapter(private val userClicked: (title: String) -> Unit) :
                     imgChecked.showUp()
                 }
 
-                val title = generateTitle()
-                userClicked.invoke(title)
+                userClicked.invoke(item)
             }
         }
-
-    private fun generateTitle(): String {
-        val builder = StringBuilder()
-        for (i in 0 until selectedContacts.size) {
-            if (selectedContacts.size - i != 1)
-                builder.append("${selectedContacts[i].name}, ")
-            else
-                builder.append(selectedContacts[i].name)
-        }
-        return builder.toString()
-    }
 }
