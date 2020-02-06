@@ -17,7 +17,11 @@ class RoomsFragment : BaseFragment() {
     private lateinit var binding: FragmentChatListBinding
     private val vm: RoomsViewModel by viewModel()
     private val adapter =
-        RoomsAdapter { findNavController().navigate(RoomsFragmentDirections.chatDestination(it)) }
+        RoomsAdapter {
+            findNavController().navigate(
+                RoomsFragmentDirections.chatDestination(it ?: return@RoomsAdapter)
+            )
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater,

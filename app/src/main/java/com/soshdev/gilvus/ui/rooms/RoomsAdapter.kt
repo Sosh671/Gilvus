@@ -7,7 +7,7 @@ import com.soshdev.gilvus.databinding.ItemRoomBinding
 import com.soshdev.gilvus.ui.base.BaseRecyclerViewAdapter
 import com.soshdev.gilvus.ui.base.BaseViewHolder
 
-class RoomsAdapter(private val userClicked: (userId: Long) -> Unit) :
+class RoomsAdapter(private val userClicked: (userId: Long?) -> Unit) :
     BaseRecyclerViewAdapter<Room, BaseViewHolder<ItemRoomBinding>>() {
 
     override fun createHolder(

@@ -6,8 +6,8 @@ import com.soshdev.gilvus.data.db.models.Room
 import io.reactivex.Single
 
 @Dao
-interface RoomDAO {
+abstract class RoomDAO {
 
     @Query("SELECT * FROM rooms")
-    fun getRooms(): Single<List<Room>>
+    abstract fun getRooms(): Single<List<Room>>
 }

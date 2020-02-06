@@ -2,6 +2,8 @@ package com.soshdev.gilvus.ui.newroom
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.google.android.material.snackbar.Snackbar
+import com.soshdev.gilvus.R
 import com.soshdev.gilvus.data.pojos.Contact
 import com.soshdev.gilvus.databinding.ItemContactBinding
 import com.soshdev.gilvus.ui.base.BaseRecyclerViewAdapter
@@ -22,14 +24,21 @@ class NewRoomAdapter(private val userClicked: (contact: Contact) -> Unit) :
         return BaseViewHolder(ItemContactBinding.inflate(inflater, root, false))
     }
 
-    override fun bindHolder(item: Contact, holder: BaseViewHolder<ItemContactBinding>, position: Int) =
+    override fun bindHolder(
+        item: Contact,
+        holder: BaseViewHolder<ItemContactBinding>,
+        position: Int
+    ) =
         holder.binding.run {
             txName.text = item.name
-            item.phone?.let { txPhone.text = it}
+            item.phone?.let { txPhone.text = it }
             layoutRoot.setOnClickListener {
-                if (item.phone == null)
+                if (item.phone == null) {
+                    Snackbar.make(root, R.string.cant_add_user_wo_phone, Snackbar.LENGTH_SHORT)
+                        .show()
                     return@setOnClickListener
-                
+                }
+
                 if (selectedContacts.contains(item)) {
                     selectedContacts.remove(item)
                     imgChecked.begone()

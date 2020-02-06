@@ -42,9 +42,7 @@ class NewRoomFragment : BaseFragment() {
 
         vm.roomTitle.observe(viewLifecycleOwner, Observer { binding.edTitle.setText(it)} )
 
-        binding.fabSave.setOnClickListener {
-            Timber.d("selected ${vm.getSelectedContacts()}")
-        }
+        binding.fabSave.setOnClickListener { vm.addRoom() }
     }
 
     private fun initRecyclerView() = with(binding) {

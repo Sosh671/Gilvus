@@ -2,10 +2,12 @@ package com.soshdev.gilvus.ui.newroom
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.soshdev.gilvus.data.DbRepository
+import com.soshdev.gilvus.data.db.models.Room
 import com.soshdev.gilvus.data.pojos.Contact
 import com.soshdev.gilvus.ui.base.BaseViewModel
 
-class NewRoomViewModel : BaseViewModel() {
+class NewRoomViewModel(private val dbRepository: DbRepository) : BaseViewModel() {
 
     private val selectedContacts = ArrayList<Contact>()
 
@@ -21,7 +23,9 @@ class NewRoomViewModel : BaseViewModel() {
         _roomTitle.value = generateTitle()
     }
 
-    fun getSelectedContacts() = selectedContacts
+    fun addRoom() {
+        val title = roomTitle.value ?: return
+    }
 
     private fun generateTitle(): String {
         val builder = StringBuilder()

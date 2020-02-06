@@ -16,4 +16,5 @@
     <string name="your_name">Your name</string>
     <string name="room_title">Room title</string>
     <string name="no_phone_number_detected">No phone number detected</string>
+    <string name="cant_add_user_wo_phone">Can`t add user without a phone number</string>
 </resources>

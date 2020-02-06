@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 data class Room(
 
     @PrimaryKey
-    val id: Long,
+    val id: Long?,
 
     val name: String,
     val creationalDate: Long
