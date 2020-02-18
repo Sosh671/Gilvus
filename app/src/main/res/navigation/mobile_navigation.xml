@@ -3,10 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/home">
 
     <fragment
-        android:id="@+id/nav_home"
+        android:id="@+id/nav_authorization"
+        android:name="com.soshdev.gilvus.ui.authorization.AuthorizationFragment"
+        tools:layout="@layout/fragment_autorization">
+
+        <action
+            android:id="@+id/confirm_destination"
+            app:destination="@+id/confirm" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/confirm"
+        android:name="com.soshdev.gilvus.ui.confirm.ConfirmFragment"
+        tools:layout="@layout/fragment_confirm">
+
+        <action
+            android:id="@+id/home_destination"
+            app:destination="@+id/home" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/home"
         android:name="com.soshdev.gilvus.ui.rooms.RoomsFragment"
         tools:layout="@layout/fragment_chat_list">
 

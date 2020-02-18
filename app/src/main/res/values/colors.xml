@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#c8a415</color>
     <color name="colorAccent">#ffa726</color>
     <color name="dark_grey">#434343</color>
+    <color name="disabled_btn">#fff8e1</color>
 </resources>

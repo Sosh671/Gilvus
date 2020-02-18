@@ -17,4 +17,10 @@
     <string name="room_title">Room title</string>
     <string name="no_phone_number_detected">No phone number detected</string>
     <string name="cant_add_user_wo_phone">Can`t add user without a phone number</string>
+    <string name="phone">Phone</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="confirm">Confirm</string>
+    <string name="dont_have_an_account">don\'t have an account?</string>
+    <string name="zero_digit">0</string>
 </resources>
