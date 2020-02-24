@@ -23,4 +23,5 @@
     <string name="confirm">Confirm</string>
     <string name="dont_have_an_account">don\'t have an account?</string>
     <string name="zero_digit">0</string>
+    <string name="code_sent_to">Confirmation code was sent to: %1$s</string>
 </resources>

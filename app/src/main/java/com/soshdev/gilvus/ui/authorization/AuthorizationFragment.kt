@@ -4,9 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.soshdev.gilvus.databinding.FragmentAutorizationBinding
 import com.soshdev.gilvus.ui.base.BaseFragment
 import org.koin.android.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 class AuthorizationFragment : BaseFragment() {
 
@@ -25,7 +28,15 @@ class AuthorizationFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vm.test()
+        vm.testCode.observe(viewLifecycleOwner, Observer {
+            Timber.d("received code: $it")
+            findNavController().navigate(AuthorizationFragmentDirections.confirmDestination(it, "12"))
+        })
+
+        binding.btnConfirm.isEnabled = true
+        binding.btnConfirm.setOnClickListener {
+            vm.login("12")
+        }
     }
 
 }

@@ -25,6 +25,14 @@
             android:id="@+id/home_destination"
             app:destination="@+id/home" />
 
+        <argument
+            android:name="code"
+            app:argType="integer" />
+
+        <argument
+            android:name="phone_number"
+            app:argType="string" />
+
     </fragment>
 
     <fragment

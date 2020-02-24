@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.soshdev.gilvus.data.network.NetworkRepositoryImpl
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,7 +15,8 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
 
     val networkConnection = MutableLiveData<Boolean>()
     val loadingState = MutableLiveData<Boolean>()
-    //    val errors = MutableLiveData<CommonError?>()
+    val errors = MutableLiveData<String>()
+
 
     val repositoryImpl: NetworkRepositoryImpl by inject()
 
@@ -25,10 +25,6 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
     override fun onCleared() {
         disposables.clear()
         super.onCleared()
-    }
-
-    fun Disposable.untilDestroy() {
-        disposables.add(this)
     }
 
     protected fun showLoading() {
