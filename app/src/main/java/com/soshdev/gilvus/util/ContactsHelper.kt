@@ -7,7 +7,7 @@ import android.database.Cursor
 import android.net.Uri
 import android.provider.ContactsContract
 import androidx.core.database.getIntOrNull
-import com.soshdev.gilvus.data.pojos.Contact
+import com.soshdev.gilvus.data.models.Contact
 import timber.log.Timber
 
 class ContactsHelper(private val context: Context) {

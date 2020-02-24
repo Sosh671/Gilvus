@@ -6,9 +6,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.soshdev.gilvus.data.DbRepository
-import com.soshdev.gilvus.data.MockedNetworkRepositoryImpl
 import com.soshdev.gilvus.data.db.GilvusDb
+import com.soshdev.gilvus.data.network.MockedNetworkRepositoryImpl
 import com.soshdev.gilvus.data.network.NetworkRepository
+import com.soshdev.gilvus.ui.authorization.AuthorizationViewModel
 import com.soshdev.gilvus.ui.chat.ChatViewModel
 import com.soshdev.gilvus.ui.newroom.NewRoomViewModel
 import com.soshdev.gilvus.ui.profile.ProfileViewModel
@@ -35,6 +36,7 @@ val appModule = module {
     factory { ChatViewModel(get()) }
     factory { ProfileViewModel() }
     factory { NewRoomViewModel(get()) }
+    factory { AuthorizationViewModel() }
 }
 
 fun populateDbWithMockedData(db: SupportSQLiteDatabase) {

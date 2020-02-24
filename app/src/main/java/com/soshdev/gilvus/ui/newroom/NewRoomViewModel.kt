@@ -3,8 +3,7 @@ package com.soshdev.gilvus.ui.newroom
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.soshdev.gilvus.data.DbRepository
-import com.soshdev.gilvus.data.db.models.Room
-import com.soshdev.gilvus.data.pojos.Contact
+import com.soshdev.gilvus.data.models.Contact
 import com.soshdev.gilvus.ui.base.BaseViewModel
 
 class NewRoomViewModel(private val dbRepository: DbRepository) : BaseViewModel() {

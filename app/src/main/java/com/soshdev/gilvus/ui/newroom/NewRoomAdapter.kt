@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.google.android.material.snackbar.Snackbar
 import com.soshdev.gilvus.R
-import com.soshdev.gilvus.data.pojos.Contact
+import com.soshdev.gilvus.data.models.Contact
 import com.soshdev.gilvus.databinding.ItemContactBinding
 import com.soshdev.gilvus.ui.base.BaseRecyclerViewAdapter
 import com.soshdev.gilvus.ui.base.BaseViewHolder

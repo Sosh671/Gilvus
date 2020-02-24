@@ -1,7 +1,6 @@
-package com.soshdev.gilvus.data
+package com.soshdev.gilvus.data.network
 
 import com.soshdev.gilvus.data.db.models.User
-import com.soshdev.gilvus.data.network.NetworkRepository
 
 class MockedNetworkRepositoryImpl : NetworkRepository {
 

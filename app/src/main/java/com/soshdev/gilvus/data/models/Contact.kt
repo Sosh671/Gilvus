@@ -1,4 +1,4 @@
-package com.soshdev.gilvus.data.pojos
+package com.soshdev.gilvus.data.models
 
 import android.net.Uri
 
