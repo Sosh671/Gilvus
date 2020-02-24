@@ -46,9 +46,5 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
 //        if (e is CommonError) errors.value = e
     }
 
-    fun CoroutineScope.launchOnDefault(block: () -> Unit) {
-        this.launch(Dispatchers.IO) {
-            block.invoke()
-        }
-    }
+
 }

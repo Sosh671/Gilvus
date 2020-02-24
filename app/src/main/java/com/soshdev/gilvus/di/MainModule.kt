@@ -11,6 +11,7 @@ import com.soshdev.gilvus.data.network.MockedNetworkRepositoryImpl
 import com.soshdev.gilvus.data.network.NetworkRepository
 import com.soshdev.gilvus.ui.authorization.AuthorizationViewModel
 import com.soshdev.gilvus.ui.chat.ChatViewModel
+import com.soshdev.gilvus.ui.confirm.ConfirmViewModel
 import com.soshdev.gilvus.ui.newroom.NewRoomViewModel
 import com.soshdev.gilvus.ui.profile.ProfileViewModel
 import com.soshdev.gilvus.ui.rooms.RoomsViewModel
@@ -37,6 +38,7 @@ val appModule = module {
     factory { ProfileViewModel() }
     factory { NewRoomViewModel(get()) }
     factory { AuthorizationViewModel() }
+    factory { ConfirmViewModel() }
 }
 
 fun populateDbWithMockedData(db: SupportSQLiteDatabase) {

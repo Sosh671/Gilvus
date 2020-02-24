@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.soshdev.gilvus.data.models.BaseResponse
 import com.soshdev.gilvus.data.models.TestCode
+import com.soshdev.gilvus.data.models.Token
 import com.soshdev.gilvus.util.Constants
 import io.reactivex.subjects.PublishSubject
 import kotlinx.coroutines.*
@@ -16,7 +17,7 @@ import java.io.OutputStream
 import java.net.InetSocketAddress
 import java.net.Socket
 
-class NetworkRepositoryImpl(private val scope: CoroutineScope? = null) : Thread() {
+class NetworkRepositoryImpl {
 
     private val timeoutSize = 2000
 
@@ -25,6 +26,7 @@ class NetworkRepositoryImpl(private val scope: CoroutineScope? = null) : Thread(
     private var inStream: InputStream? = null
 
     val loginSubject: PublishSubject<BaseResponse<TestCode>> = PublishSubject.create()
+    val confirmLoginSubject: PublishSubject<BaseResponse<Token>> = PublishSubject.create()
 
     init {
         openConnection()
@@ -53,9 +55,25 @@ class NetworkRepositoryImpl(private val scope: CoroutineScope? = null) : Thread(
                     while (line != null) {
                         val obj = JSONObject(line)
                         when (obj.getString("request")) {
+                            "registration" -> {
+                            }
                             "login" -> {
                                 val type = object : TypeToken<BaseResponse<TestCode>>() {}.type
                                 loginSubject.onNext(gson.fromJson(line, type))
+                            }
+                            "confirm_login" -> {
+                                val type = object : TypeToken<BaseResponse<Token>>() {}.type
+                                confirmLoginSubject.onNext(gson.fromJson(line, type))
+                            }
+                            "confirm_registration" -> {
+                            }
+                            "get_rooms" -> {
+                            }
+                            "add_room" -> {
+                            }
+                            "get_messages" -> {
+                            }
+                            "send_message" -> {
                             }
                         }
 
@@ -75,18 +93,19 @@ class NetworkRepositoryImpl(private val scope: CoroutineScope? = null) : Thread(
         socket = null
     }
 
-    suspend fun login(
-        phone: String,
-        password: String? = null
-    ): JSONObject? {
+    suspend fun login(phone: String, password: String? = null) {
         formRequestObject("login", JSONObject().apply {
             put("phone", phone)
             password?.let { put("password", password) }
         })
-
-        return null
     }
 
+    suspend fun confirmLogin(phone: String, code: Int) {
+        formRequestObject("confirm_login", JSONObject().apply {
+            put("phone", phone)
+            put("code", code)
+        })
+    }
 
     suspend fun formRequestObject(request: String, data: JSONObject) {
         val obj = JSONObject()

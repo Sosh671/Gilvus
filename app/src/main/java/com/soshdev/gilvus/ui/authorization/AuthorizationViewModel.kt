@@ -4,10 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.soshdev.gilvus.ui.base.BaseViewModel
+import com.soshdev.gilvus.util.launchOnIO
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class AuthorizationViewModel : BaseViewModel() {
@@ -24,12 +23,13 @@ class AuthorizationViewModel : BaseViewModel() {
                 else
                     errors.postValue(it.errorMessage)
             },
+            //todo error
             onError = Timber::d
         )
     }
 
     fun login(phone: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launchOnIO {
             repositoryImpl.login(phone)
         }
     }

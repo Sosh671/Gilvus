@@ -36,10 +36,7 @@ class AuthorizationFragment : BaseFragment() {
         vm.testCode.observe(viewLifecycleOwner, Observer {
             Timber.d("received code: $it")
             findNavController().navigate(
-                AuthorizationFragmentDirections.confirmDestination(
-                    it,
-                    "12"
-                )
+                AuthorizationFragmentDirections.confirmDestination(it, "12")
             )
         })
 

@@ -8,6 +8,10 @@ import android.view.View.VISIBLE
 import android.view.inputmethod.InputMethodManager
 import com.google.android.material.textfield.TextInputEditText
 import io.reactivex.Single
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 
@@ -48,3 +52,10 @@ fun TextInputEditText.showKeyboard(activity: Activity) {
         InputMethodManager.SHOW_IMPLICIT
     )
 }
+
+fun CoroutineScope.launchOnIO(block: suspend () -> Unit): Job {
+    return this.launch(Dispatchers.IO) {
+        block.invoke()
+    }
+}
+

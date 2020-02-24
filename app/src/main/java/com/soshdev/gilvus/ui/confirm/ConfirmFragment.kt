@@ -5,12 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.soshdev.gilvus.R
 import com.soshdev.gilvus.databinding.FragmentConfirmBinding
 import com.soshdev.gilvus.ui.base.BaseFragment
-import com.soshdev.gilvus.util.print
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class ConfirmFragment : BaseFragment() {
@@ -33,7 +31,9 @@ class ConfirmFragment : BaseFragment() {
 
         binding.txCodeSend.text = getString(R.string.code_sent_to, args.phoneNumber)
         binding.btnConfirm.setOnClickListener {
-            findNavController().navigate(ConfirmFragmentDirections.homeDestination())
+//            findNavController().navigate(ConfirmFragmentDirections.homeDestination())
+            // todo here
+            vm.confirm("12", args.code)
         }
         watchDigits()
 
@@ -73,7 +73,6 @@ class ConfirmFragment : BaseFragment() {
     }
 
     private fun enableButton() {
-        areInputsFilled.print()
         binding.btnConfirm.isEnabled = areInputsFilled.all { it > 0 }
     }
 
