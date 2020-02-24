@@ -7,7 +7,7 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/title_login"
+            android:id="@+id/tx_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
@@ -82,7 +82,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/dont_have_an_account"
+            android:padding="8dp"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:text="@string/dont_have_account"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btn_confirm" />

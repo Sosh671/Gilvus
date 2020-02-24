@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.soshdev.gilvus.R
 import com.soshdev.gilvus.databinding.FragmentConfirmBinding
 import com.soshdev.gilvus.ui.base.BaseFragment
+import com.soshdev.gilvus.util.print
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class ConfirmFragment : BaseFragment() {
@@ -30,8 +32,49 @@ class ConfirmFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.txCodeSend.text = getString(R.string.code_sent_to, args.phoneNumber)
+        binding.btnConfirm.setOnClickListener {
+            findNavController().navigate(ConfirmFragmentDirections.homeDestination())
+        }
+        watchDigits()
 
         testFillCode()
+    }
+
+    private val areInputsFilled = intArrayOf(0, 0, 0, 0)
+
+    // listen to digits fields
+    private fun watchDigits() {
+        binding.run {
+            digit1.addTextChangedListener { e ->
+                e?.let {
+                    if (it.isNotBlank()) areInputsFilled[0] = 1 else areInputsFilled[0] = 0
+                    enableButton()
+                }
+            }
+            digit2.addTextChangedListener { e ->
+                e?.let {
+                    if (it.isNotBlank()) areInputsFilled[1] = 1 else areInputsFilled[1] = 0
+                    enableButton()
+                }
+            }
+            digit3.addTextChangedListener { e ->
+                e?.let {
+                    if (it.isNotBlank()) areInputsFilled[2] = 1 else areInputsFilled[2] = 0
+                    enableButton()
+                }
+            }
+            digit4.addTextChangedListener { e ->
+                e?.let {
+                    if (it.isNotBlank()) areInputsFilled[3] = 1 else areInputsFilled[3] = 0
+                    enableButton()
+                }
+            }
+        }
+    }
+
+    private fun enableButton() {
+        areInputsFilled.print()
+        binding.btnConfirm.isEnabled = areInputsFilled.all { it > 0 }
     }
 
     fun testFillCode() {
@@ -41,10 +84,6 @@ class ConfirmFragment : BaseFragment() {
             digit2.setText("${code % 1000 / 100}")
             digit3.setText("${code % 100 / 10}")
             digit4.setText("${code % 10}")
-            btnConfirm.isEnabled = true
-            btnConfirm.setOnClickListener {
-                findNavController().navigate(ConfirmFragmentDirections.homeDestination())
-            }
         }
     }
 }
