@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.soshdev.gilvus.R
 import com.soshdev.gilvus.databinding.FragmentConfirmBinding
@@ -16,6 +17,9 @@ class ConfirmFragment : BaseFragment() {
     private lateinit var binding: FragmentConfirmBinding
     private val vm: ConfirmViewModel by viewModel()
     private val args: ConfirmFragmentArgs by navArgs()
+    private val isRegistration by lazy { args.isRegistration }
+    private val phoneNumber by lazy { args.phoneNumber }
+    private val smsCode by lazy { args.code }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,9 +35,11 @@ class ConfirmFragment : BaseFragment() {
 
         binding.txCodeSend.text = getString(R.string.code_sent_to, args.phoneNumber)
         binding.btnConfirm.setOnClickListener {
-//            findNavController().navigate(ConfirmFragmentDirections.homeDestination())
-            // todo here
-            vm.confirm("12", args.code)
+            findNavController().navigate(ConfirmFragmentDirections.homeDestination())
+            if (isRegistration)
+                vm.confirmRegistration(phoneNumber, smsCode)
+            else
+                vm.confirmLogin(phoneNumber, smsCode)
         }
         watchDigits()
 
@@ -78,11 +84,10 @@ class ConfirmFragment : BaseFragment() {
 
     fun testFillCode() {
         binding.run {
-            val code = args.code
-            digit1.setText("${code % 10000 / 1000}")
-            digit2.setText("${code % 1000 / 100}")
-            digit3.setText("${code % 100 / 10}")
-            digit4.setText("${code % 10}")
+            digit1.setText("${smsCode % 10000 / 1000}")
+            digit2.setText("${smsCode % 1000 / 100}")
+            digit3.setText("${smsCode % 100 / 10}")
+            digit4.setText("${smsCode % 10}")
         }
     }
 }

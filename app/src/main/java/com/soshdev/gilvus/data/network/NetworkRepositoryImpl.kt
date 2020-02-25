@@ -27,6 +27,8 @@ class NetworkRepositoryImpl {
 
     val loginSubject: PublishSubject<BaseResponse<TestCode>> = PublishSubject.create()
     val confirmLoginSubject: PublishSubject<BaseResponse<Token>> = PublishSubject.create()
+    val registrationSubject: PublishSubject<BaseResponse<TestCode>> = PublishSubject.create()
+    val confirmRegistrationSubject: PublishSubject<BaseResponse<Token>> = PublishSubject.create()
 
     init {
         openConnection()
@@ -55,8 +57,6 @@ class NetworkRepositoryImpl {
                     while (line != null) {
                         val obj = JSONObject(line)
                         when (obj.getString("request")) {
-                            "registration" -> {
-                            }
                             "login" -> {
                                 val type = object : TypeToken<BaseResponse<TestCode>>() {}.type
                                 loginSubject.onNext(gson.fromJson(line, type))
@@ -65,7 +65,13 @@ class NetworkRepositoryImpl {
                                 val type = object : TypeToken<BaseResponse<Token>>() {}.type
                                 confirmLoginSubject.onNext(gson.fromJson(line, type))
                             }
+                            "registration" -> {
+                                val type = object : TypeToken<BaseResponse<TestCode>>() {}.type
+                                loginSubject.onNext(gson.fromJson(line, type))
+                            }
                             "confirm_registration" -> {
+                                val type = object : TypeToken<BaseResponse<Token>>() {}.type
+                                confirmLoginSubject.onNext(gson.fromJson(line, type))
                             }
                             "get_rooms" -> {
                             }
@@ -107,6 +113,20 @@ class NetworkRepositoryImpl {
         })
     }
 
+    suspend fun registration(phone: String, password: String? = null) {
+        formRequestObject("registration", JSONObject().apply {
+            put("phone", phone)
+            password?.let { put("password", password) }
+        })
+    }
+
+    suspend fun confirmRegistration(phone: String, code: Int) {
+        formRequestObject("confirm_registration", JSONObject().apply {
+            put("phone", phone)
+            put("code", code)
+        })
+    }
+
     suspend fun formRequestObject(request: String, data: JSONObject) {
         val obj = JSONObject()
         obj.put("request", request)
@@ -116,7 +136,7 @@ class NetworkRepositoryImpl {
     }
 
     suspend fun sendToServer(data: JSONObject) {
-        println("requested $data")
+        Timber.d("requested $data")
         withContext(Dispatchers.IO) {
             outStream?.write("$data\n".toByteArray())
         }

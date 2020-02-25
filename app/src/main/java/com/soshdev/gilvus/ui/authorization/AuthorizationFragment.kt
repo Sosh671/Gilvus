@@ -8,6 +8,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.soshdev.gilvus.R
+import com.soshdev.gilvus.data.AuthorizationState
 import com.soshdev.gilvus.databinding.FragmentAutorizationBinding
 import com.soshdev.gilvus.ui.base.BaseFragment
 import com.soshdev.gilvus.util.showKeyboard
@@ -18,8 +19,6 @@ class AuthorizationFragment : BaseFragment() {
 
     private lateinit var binding: FragmentAutorizationBinding
     private val vm: AuthorizationViewModel by viewModel()
-
-    private var state = AuthorizationState.LOGIN
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,27 +34,47 @@ class AuthorizationFragment : BaseFragment() {
 
         vm.testCode.observe(viewLifecycleOwner, Observer {
             Timber.d("received code: $it")
-            findNavController().navigate(
-                AuthorizationFragmentDirections.confirmDestination(it, "12")
-            )
+            // todo temp solution
+            if (it > 0) {
+                findNavController().navigate(
+                    AuthorizationFragmentDirections.confirmDestination(
+                        it,
+                        vm.phone,
+                        vm.state == AuthorizationState.REGISTRATION
+                    )
+                )
+                vm.testClear()
+            }
         })
+        vm.state = AuthorizationState.LOGIN
 
         binding.run {
+            // todo mb delete not sure it works
             activity?.let { loginField.showKeyboard(it) }
 
+            // enable or disable confirm btn
             loginField.addTextChangedListener { e ->
                 e?.let { binding.btnConfirm.isEnabled = it.isNotBlank() }
             }
             btnConfirm.setOnClickListener {
-                vm.login(loginField.text.toString())
+                vm.phone = loginField.text.toString()
+                val password = if (passwordField.text?.isNotBlank() == true)
+                    passwordField.text?.toString()
+                else
+                    null
+                if (vm.state == AuthorizationState.LOGIN)
+                    vm.login(vm.phone, password)
+                else
+                    vm.registration(vm.phone, password)
             }
+            // change layout to registration/login
             txSwitch.setOnClickListener {
-                if (state == AuthorizationState.LOGIN) {
-                    state = AuthorizationState.REGISTRATION
+                if (vm.state == AuthorizationState.LOGIN) {
+                    vm.state = AuthorizationState.REGISTRATION
                     txTitle.text = getString(R.string.registration)
                     txSwitch.text = getString(R.string.already_have_account)
                 } else {
-                    state = AuthorizationState.LOGIN
+                    vm.state = AuthorizationState.LOGIN
                     txTitle.text = getString(R.string.login)
                     txSwitch.text = getString(R.string.dont_have_account)
                 }
@@ -67,10 +86,5 @@ class AuthorizationFragment : BaseFragment() {
 
     private fun testPutPhone() {
         binding.loginField.setText("12")
-    }
-
-    private enum class AuthorizationState {
-        LOGIN,
-        REGISTRATION
     }
 }

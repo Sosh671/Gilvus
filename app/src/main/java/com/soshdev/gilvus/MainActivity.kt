@@ -10,6 +10,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.navigation.NavigationView
 import com.soshdev.gilvus.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -21,7 +22,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val topDestinations = setOf(
-        R.id.nav_home
+        R.id.home
     )
 
     private val appBarConfiguration by lazy {
@@ -33,7 +34,15 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        binding.navView.setupWithNavController(navController)
+        /**
+         * Sets up a [NavigationView] for use with a [NavController]. This will call
+         * [android.view.MenuItem.onNavDestinationSelected] when a menu item is selected.
+         *
+         * The selected item in the NavigationView will automatically be updated when the destination
+         * changes.
+         */
+        binding.navView.setupWithNavController(navController)
+
         setupDrawer()
     }
 
@@ -48,9 +57,9 @@ class MainActivity : AppCompatActivity() {
         title?.let { toolbar.title = it }
 
         // override only if not at the top destination (toolbar icon is back arrow and not menu)
-        if (!topDestinations.contains(findNavController(R.id.fragment_container).currentDestination?.id)) {
+        if (!topDestinations.contains(navController.currentDestination?.id)) {
             toolbar.setNavigationOnClickListener {
-                findNavController(R.id.fragment_container).navigateUp()
+                navController.navigateUp()
             }
         }
     }
@@ -68,7 +77,7 @@ class MainActivity : AppCompatActivity() {
                     if (!menuItem.isChecked) {
                         val options = NavOptions.Builder()
                             .setLaunchSingleTop(true)
-                            .setPopUpTo(R.id.nav_home, false)
+                            .setPopUpTo(R.id.home, false)
                         navController.navigate(menuItem.itemId, null, options.build())
                     }
                     binding.drawerLayout.closeDrawer(GravityCompat.START)
@@ -87,7 +96,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_view)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 }
