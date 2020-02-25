@@ -1,94 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    <TextView
+        android:id="@+id/tx_code_send"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias=".3"
+        tools:text="Confirmation code was sent to +38090909090" />
 
-        <TextView
-            android:id="@+id/tx_code_send"
-            android:layout_width="220dp"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias=".3"
-            tools:text="Confirmation code was sent to +38090909090" />
+    <EditText
+        android:id="@+id/digit_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:hint="@string/zero_digit"
+        android:inputType="number"
+        android:maxLength="1"
+        android:nextFocusDown="@id/digit_2"
+        android:singleLine="true"
+        app:layout_constraintEnd_toStartOf="@id/digit_2"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tx_code_send" />
 
-        <EditText
-            android:id="@+id/digit_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:hint="@string/zero_digit"
-            android:inputType="number"
-            android:maxLength="1"
-            android:nextFocusDown="@id/digit_2"
-            android:singleLine="true"
-            app:layout_constraintEnd_toStartOf="@id/digit_2"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tx_code_send" />
+    <EditText
+        android:id="@+id/digit_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:hint="@string/zero_digit"
+        android:inputType="number"
+        android:maxLength="1"
+        android:nextFocusDown="@id/digit_3"
+        android:singleLine="true"
+        app:layout_constraintEnd_toStartOf="@id/digit_3"
+        app:layout_constraintStart_toEndOf="@id/digit_1"
+        app:layout_constraintTop_toBottomOf="@id/tx_code_send" />
 
-        <EditText
-            android:id="@+id/digit_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:hint="@string/zero_digit"
-            android:inputType="number"
-            android:maxLength="1"
-            android:nextFocusDown="@id/digit_3"
-            android:singleLine="true"
-            app:layout_constraintEnd_toStartOf="@id/digit_3"
-            app:layout_constraintStart_toEndOf="@id/digit_1"
-            app:layout_constraintTop_toBottomOf="@id/tx_code_send" />
+    <EditText
+        android:id="@+id/digit_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:hint="@string/zero_digit"
+        android:inputType="number"
+        android:maxLength="1"
+        android:nextFocusDown="@id/digit_4"
+        android:singleLine="true"
+        app:layout_constraintEnd_toStartOf="@id/digit_4"
+        app:layout_constraintStart_toEndOf="@id/digit_2"
+        app:layout_constraintTop_toBottomOf="@id/tx_code_send" />
 
-        <EditText
-            android:id="@+id/digit_3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:hint="@string/zero_digit"
-            android:inputType="number"
-            android:maxLength="1"
-            android:nextFocusDown="@id/digit_4"
-            android:singleLine="true"
-            app:layout_constraintEnd_toStartOf="@id/digit_4"
-            app:layout_constraintStart_toEndOf="@id/digit_2"
-            app:layout_constraintTop_toBottomOf="@id/tx_code_send" />
+    <EditText
+        android:id="@+id/digit_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:hint="@string/zero_digit"
+        android:inputType="number"
+        android:maxLength="1"
+        android:singleLine="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/digit_3"
+        app:layout_constraintTop_toBottomOf="@id/tx_code_send" />
 
-        <EditText
-            android:id="@+id/digit_4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:hint="@string/zero_digit"
-            android:inputType="number"
-            android:maxLength="1"
-            android:singleLine="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/digit_3"
-            app:layout_constraintTop_toBottomOf="@id/tx_code_send" />
+    <Button
+        android:id="@+id/btn_confirm"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:enabled="false"
+        android:text="@string/confirm"
+        app:backgroundTint="@color/btn_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/digit_2" />
 
-        <Button
-            android:id="@+id/btn_confirm"
-            android:layout_width="0dp"
-            android:layout_height="64dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="24dp"
-            android:enabled="false"
-            android:text="@string/confirm"
-            app:backgroundTint="@color/btn_color"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/digit_2" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>
