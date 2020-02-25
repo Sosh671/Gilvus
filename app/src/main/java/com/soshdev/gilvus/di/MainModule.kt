@@ -3,7 +3,6 @@ package com.soshdev.gilvus.di
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
 import androidx.room.Room
-import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.soshdev.gilvus.data.DbRepository
 import com.soshdev.gilvus.data.db.GilvusDb
@@ -15,6 +14,8 @@ import com.soshdev.gilvus.ui.confirm.ConfirmViewModel
 import com.soshdev.gilvus.ui.newroom.NewRoomViewModel
 import com.soshdev.gilvus.ui.profile.ProfileViewModel
 import com.soshdev.gilvus.ui.rooms.RoomsViewModel
+import com.soshdev.gilvus.util.PrefsHelper
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 val appModule = module {
@@ -22,13 +23,13 @@ val appModule = module {
     single<NetworkRepository> { MockedNetworkRepositoryImpl() }
     single {
         Room.databaseBuilder(get(), GilvusDb::class.java, "Gilvus_db")
-            .addCallback(object : RoomDatabase.Callback() {
+           /* .addCallback(object : RoomDatabase.Callback() {
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
 
                     populateDbWithMockedData(db)
                 }
-            })
+            })*/
             .build()
     }
 
@@ -39,6 +40,7 @@ val appModule = module {
     factory { NewRoomViewModel(get()) }
     factory { AuthorizationViewModel() }
     factory { ConfirmViewModel() }
+    single { PrefsHelper(androidContext()) }
 }
 
 fun populateDbWithMockedData(db: SupportSQLiteDatabase) {

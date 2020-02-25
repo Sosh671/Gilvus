@@ -2,6 +2,7 @@ package com.soshdev.gilvus.ui.confirm
 
 import androidx.lifecycle.viewModelScope
 import com.soshdev.gilvus.ui.base.BaseViewModel
+import com.soshdev.gilvus.util.PrefsHelper
 import com.soshdev.gilvus.util.launchOnIO
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
@@ -13,6 +14,10 @@ class ConfirmViewModel : BaseViewModel() {
         disposables += repositoryImpl.confirmLoginSubject.subscribeBy(
             onNext = {
                 Timber.d("$it")
+                if (it.status) {
+                    getKoin().get<PrefsHelper>().apply { putToken(it.data!!.token) }
+                }
+                //todo else
             },
             // todo error
             onError = Timber::e

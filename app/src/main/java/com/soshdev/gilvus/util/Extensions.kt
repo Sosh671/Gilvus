@@ -19,9 +19,22 @@ fun <T : Any> Single<T>.androidSubscribe() =
     this.subscribeOn(io.reactivex.schedulers.Schedulers.io())
         .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
 
+fun CoroutineScope.launchOnIO(block: suspend () -> Unit): Job {
+    return this.launch(Dispatchers.IO) {
+        block.invoke()
+    }
+}
+
+fun View.begone() {
+    visibility = GONE
+}
+
+fun View.showUp() {
+    visibility = VISIBLE
+}
+
 
 fun <T : Any> List<T>.toArrayList() = this.toMutableList() as ArrayList
-
 
 fun Array<String>.printContents(/*printMethod: (String) -> Unit*/) {
     for (string in this) {
@@ -36,26 +49,11 @@ fun IntArray.print() {
         Timber.d("${this[i]}")
 }
 
-fun View.begone() {
-    visibility = GONE
-}
-
-fun View.showUp() {
-    visibility = VISIBLE
-}
-
-
 fun TextInputEditText.showKeyboard(activity: Activity) {
     requestFocus()
     (activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).showSoftInput(
         this,
         InputMethodManager.SHOW_IMPLICIT
     )
-}
-
-fun CoroutineScope.launchOnIO(block: suspend () -> Unit): Job {
-    return this.launch(Dispatchers.IO) {
-        block.invoke()
-    }
 }
 
