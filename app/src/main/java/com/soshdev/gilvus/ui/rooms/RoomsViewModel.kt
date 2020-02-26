@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.soshdev.gilvus.data.DbRepository
 import com.soshdev.gilvus.data.db.models.Room
-import com.soshdev.gilvus.data.network.NetworkRepository
 import com.soshdev.gilvus.ui.base.BaseViewModel
 import com.soshdev.gilvus.util.launchOnIO
 import com.soshdev.gilvus.util.toArrayList
@@ -14,7 +13,6 @@ import io.reactivex.rxkotlin.subscribeBy
 import timber.log.Timber
 
 class RoomsViewModel(
-    private val repository: NetworkRepository,
     private val dbRepository: DbRepository
 ) : BaseViewModel() {
 

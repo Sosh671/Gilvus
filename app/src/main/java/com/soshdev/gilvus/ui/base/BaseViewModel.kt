@@ -3,7 +3,6 @@ package com.soshdev.gilvus.ui.base
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.soshdev.gilvus.data.network.NetworkRepositoryImpl
-import com.soshdev.gilvus.util.PrefsHelper
 import io.reactivex.disposables.CompositeDisposable
 import org.koin.core.KoinComponent
 import org.koin.core.inject
@@ -17,7 +16,6 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
 
     protected val disposables = CompositeDisposable()
     protected val networkRepository: NetworkRepositoryImpl by inject()
-    protected val prefsHelper: PrefsHelper by inject()
 
     override fun onCleared() {
         disposables.clear()

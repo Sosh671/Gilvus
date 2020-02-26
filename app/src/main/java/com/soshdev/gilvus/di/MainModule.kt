@@ -6,8 +6,7 @@ import androidx.room.Room
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.soshdev.gilvus.data.DbRepository
 import com.soshdev.gilvus.data.db.GilvusDb
-import com.soshdev.gilvus.data.network.MockedNetworkRepositoryImpl
-import com.soshdev.gilvus.data.network.NetworkRepository
+import com.soshdev.gilvus.data.network.NetworkRepositoryImpl
 import com.soshdev.gilvus.ui.authorization.AuthorizationViewModel
 import com.soshdev.gilvus.ui.chat.ChatViewModel
 import com.soshdev.gilvus.ui.confirm.ConfirmViewModel
@@ -16,31 +15,33 @@ import com.soshdev.gilvus.ui.profile.ProfileViewModel
 import com.soshdev.gilvus.ui.rooms.RoomsViewModel
 import com.soshdev.gilvus.util.PrefsHelper
 import org.koin.android.ext.koin.androidContext
+import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-val appModule = module {
+val viewModelModule = module {
+    viewModel { RoomsViewModel(get()) }
+    viewModel { ChatViewModel(get()) }
+    viewModel { ProfileViewModel() }
+    viewModel { NewRoomViewModel(get()) }
+    viewModel { AuthorizationViewModel() }
+    viewModel { ConfirmViewModel(get()) }
+}
 
-    single<NetworkRepository> { MockedNetworkRepositoryImpl() }
+val dataModule = module {
+    single { NetworkRepositoryImpl() }
+    single { PrefsHelper(androidContext()) }
+    single { DbRepository(get()) }
     single {
         Room.databaseBuilder(get(), GilvusDb::class.java, "Gilvus_db")
-           /* .addCallback(object : RoomDatabase.Callback() {
-                override fun onCreate(db: SupportSQLiteDatabase) {
-                    super.onCreate(db)
+            /* .addCallback(object : RoomDatabase.Callback() {
+                 override fun onCreate(db: SupportSQLiteDatabase) {
+                     super.onCreate(db)
 
-                    populateDbWithMockedData(db)
-                }
-            })*/
+                     populateDbWithMockedData(db)
+                 }
+             })*/
             .build()
     }
-
-    factory { DbRepository(get()) }
-    factory { RoomsViewModel(get(), get()) }
-    factory { ChatViewModel(get()) }
-    factory { ProfileViewModel() }
-    factory { NewRoomViewModel(get()) }
-    factory { AuthorizationViewModel() }
-    factory { ConfirmViewModel() }
-    single { PrefsHelper(androidContext()) }
 }
 
 fun populateDbWithMockedData(db: SupportSQLiteDatabase) {
@@ -88,7 +89,7 @@ fun populateDbWithMockedData(db: SupportSQLiteDatabase) {
 
     // messages
     cv = ContentValues()
-    for(i in 0 until roomMembers.size) {
+    for (i in 0 until roomMembers.size) {
         val room = roomMembers[i]
         val messageCount = (3..15).random()
         for (j in 1..messageCount) {

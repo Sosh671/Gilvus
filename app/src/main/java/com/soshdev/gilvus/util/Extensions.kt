@@ -12,7 +12,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 
 fun <T : Any> Single<T>.androidSubscribe() =
@@ -36,21 +35,7 @@ fun View.showUp() {
     visibility = VISIBLE
 }
 
-
 fun <T : Any> List<T>.toArrayList() = this.toMutableList() as ArrayList
-
-fun Array<String>.printContents(/*printMethod: (String) -> Unit*/) {
-    for (string in this) {
-//        printMethod.invoke(string)
-        Timber.d(string)
-    }
-}
-
-fun IntArray.print() {
-    Timber.d("size $size")
-    for (i in 0 until size)
-        Timber.d("${this[i]}")
-}
 
 fun TextInputEditText.showKeyboard(activity: Activity) {
     requestFocus()

@@ -2,8 +2,8 @@ package com.soshdev.gilvus
 
 import android.app.Application
 import com.facebook.stetho.Stetho
-import com.soshdev.gilvus.di.appModule
-import com.soshdev.gilvus.di.networkModule
+import com.soshdev.gilvus.di.dataModule
+import com.soshdev.gilvus.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -23,12 +23,7 @@ class GilvusApplication : Application() {
         startKoin {
             androidLogger()
             androidContext(this@GilvusApplication)
-            modules(
-                listOf(
-                    appModule,
-                    networkModule
-                )
-            )
+            modules(listOf(viewModelModule, dataModule))
         }
 
         // Stetho
