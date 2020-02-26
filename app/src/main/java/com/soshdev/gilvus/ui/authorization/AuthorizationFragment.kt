@@ -32,8 +32,9 @@ class AuthorizationFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        checkToken()
+
         vm.testCode.observe(viewLifecycleOwner, Observer {
-            Timber.d("received code: $it")
             // todo temp solution
             if (it > 0) {
                 findNavController().navigate(
@@ -48,6 +49,12 @@ class AuthorizationFragment : BaseFragment() {
         })
         vm.state = AuthorizationState.LOGIN
 
+        initUI()
+
+        testPutPhone()
+    }
+
+    private fun initUI() {
         binding.run {
             // todo mb delete not sure it works
             activity?.let { loginField.showKeyboard(it) }
@@ -80,11 +87,15 @@ class AuthorizationFragment : BaseFragment() {
                 }
             }
         }
+    }
 
-        testPutPhone()
+    private fun checkToken() {
+        prefsHelper.getToken()?.let {
+            findNavController().navigate(AuthorizationFragmentDirections.homeDestination())
+        }
     }
 
     private fun testPutPhone() {
-        binding.loginField.setText("12")
+        binding.loginField.setText("123123123")
     }
 }

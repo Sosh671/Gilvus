@@ -19,7 +19,7 @@ class AuthorizationViewModel : BaseViewModel() {
     var state = AuthorizationState.LOGIN
 
     init {
-        disposables += repositoryImpl.loginSubject.subscribeBy(
+        disposables += networkRepository.loginSubject.subscribeBy(
             onNext = {
                 if (it.status)
                     _testCode.postValue(it.data!!.code)
@@ -30,7 +30,7 @@ class AuthorizationViewModel : BaseViewModel() {
             //todo error
             onError = Timber::d
         )
-        disposables += repositoryImpl.registrationSubject.subscribeBy(
+        disposables += networkRepository.registrationSubject.subscribeBy(
             onNext = {
                 if (it.status)
                     _testCode.postValue(it.data!!.code)
@@ -49,13 +49,13 @@ class AuthorizationViewModel : BaseViewModel() {
 
     fun login(phone: String, password: String?) {
         viewModelScope.launchOnIO {
-            repositoryImpl.login(phone, password)
+            networkRepository.login(phone, password)
         }
     }
 
     fun registration(phone: String, password: String?) {
         viewModelScope.launchOnIO {
-            repositoryImpl.registration(phone, password)
+            networkRepository.registration(phone, password)
         }
     }
 }

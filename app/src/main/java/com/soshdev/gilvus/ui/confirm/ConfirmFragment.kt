@@ -35,6 +35,7 @@ class ConfirmFragment : BaseFragment() {
 
         binding.txCodeSend.text = getString(R.string.code_sent_to, args.phoneNumber)
         binding.btnConfirm.setOnClickListener {
+            // todo navigatioin on btn click - wrong, check request status
             findNavController().navigate(ConfirmFragmentDirections.homeDestination())
             if (isRegistration)
                 vm.confirmRegistration(phoneNumber, smsCode)

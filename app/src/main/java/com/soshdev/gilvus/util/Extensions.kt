@@ -25,6 +25,9 @@ fun CoroutineScope.launchOnIO(block: suspend () -> Unit): Job {
     }
 }
 
+fun <T> Collection<T>.contentEquals(c: Collection<T>?) =
+    c?.let { size == c.size && containsAll(c) } ?: false
+
 fun View.begone() {
     visibility = GONE
 }

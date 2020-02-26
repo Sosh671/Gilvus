@@ -2,7 +2,6 @@ package com.soshdev.gilvus.ui.confirm
 
 import androidx.lifecycle.viewModelScope
 import com.soshdev.gilvus.ui.base.BaseViewModel
-import com.soshdev.gilvus.util.PrefsHelper
 import com.soshdev.gilvus.util.launchOnIO
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
@@ -11,22 +10,20 @@ import timber.log.Timber
 class ConfirmViewModel : BaseViewModel() {
 
     init {
-        disposables += repositoryImpl.confirmLoginSubject.subscribeBy(
+        disposables += networkRepository.confirmLoginSubject.subscribeBy(
             onNext = {
-                Timber.d("$it")
                 if (it.status) {
-                    getKoin().get<PrefsHelper>().apply { putToken(it.data!!.token) }
+                    it.data?.token?.let { token -> prefsHelper.putToken(token) }
                 }
                 //todo else
             },
             // todo error
             onError = Timber::e
         )
-        disposables += repositoryImpl.confirmRegistrationSubject.subscribeBy(
+        disposables += networkRepository.confirmRegistrationSubject.subscribeBy(
             onNext = {
-                Timber.d("$it")
                 if (it.status) {
-                    getKoin().get<PrefsHelper>().apply { putToken(it.data!!.token) }
+                    it.data?.token?.let { token -> prefsHelper.putToken(token) }
                 }
                 //todo else
             },
@@ -37,13 +34,13 @@ class ConfirmViewModel : BaseViewModel() {
 
     fun confirmLogin(phone: String, code: Int) {
         viewModelScope.launchOnIO {
-            repositoryImpl.confirmLogin(phone, code)
+            networkRepository.confirmLogin(phone, code)
         }
     }
 
     fun confirmRegistration(phone: String, code: Int) {
         viewModelScope.launchOnIO {
-            repositoryImpl.confirmRegistration(phone, code)
+            networkRepository.confirmRegistration(phone, code)
         }
     }
 }

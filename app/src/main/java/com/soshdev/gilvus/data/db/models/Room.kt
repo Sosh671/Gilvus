@@ -10,5 +10,5 @@ data class Room(
     val id: Long?,
 
     val name: String,
-    val creationalDate: Long
+    val dateCreated: Long
 )

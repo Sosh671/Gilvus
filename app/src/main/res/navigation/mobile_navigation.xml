@@ -5,6 +5,9 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@id/authorization">
 
+    <action android:id="@+id/global_authorization_destination"
+        app:destination="@+id/authorization" />
+
     <fragment
         android:id="@+id/authorization"
         android:name="com.soshdev.gilvus.ui.authorization.AuthorizationFragment"
@@ -13,6 +16,12 @@
         <action
             android:id="@+id/confirm_destination"
             app:destination="@+id/confirm" />
+
+        <action
+            android:id="@+id/home_destination"
+            app:destination="@+id/home"
+            app:popUpTo="@id/mobile_navigation"
+            app:popUpToInclusive="true" />
 
     </fragment>
 

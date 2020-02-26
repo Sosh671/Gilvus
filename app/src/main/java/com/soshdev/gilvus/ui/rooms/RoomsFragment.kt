@@ -47,7 +47,7 @@ class RoomsFragment : BaseFragment() {
             adapter.add(it)
         })
 
-        vm.getRooms()
+        userToken?.let { vm.getRooms(it) }
     }
 
     private fun initRecyclerView() = with(binding) {
