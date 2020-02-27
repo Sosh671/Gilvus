@@ -2,6 +2,7 @@ package com.soshdev.gilvus.data.network
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.soshdev.gilvus.data.db.models.Message
 import com.soshdev.gilvus.data.db.models.Room
 import com.soshdev.gilvus.data.models.BaseResponse
 import com.soshdev.gilvus.data.models.Id
@@ -53,8 +54,8 @@ class NetworkRepositoryImpl {
 
                     val reader = BufferedReader(InputStreamReader(inStream!!))
                     var line = reader.readLine()
-                    Timber.d("received from server: $line")
                     while (line != null) {
+                        Timber.d("received from server: $line")
                         handleServerResponse(line)
 
                         line = reader.readLine()
@@ -79,6 +80,7 @@ class NetworkRepositoryImpl {
     val confirmRegistrationSubject: PublishSubject<BaseResponse<Token>> = PublishSubject.create()
     val getRoomsSubject: PublishSubject<BaseResponse<List<Room>>> = PublishSubject.create()
     val createRoomSubject: PublishSubject<BaseResponse<Id>> = PublishSubject.create()
+    val getMessagesSubject: PublishSubject<BaseResponse<List<Message>>> = PublishSubject.create()
 
     private val typeTokensList = TypeTokensList()
 
@@ -99,7 +101,6 @@ class NetworkRepositoryImpl {
                     confirmLoginSubject.onNext(gson.fromJson(response, typeTokensList.typeToken))
                 }
                 "get_rooms" -> {
-                    Timber.d("$response")
                     val old: BaseResponse<Map<String, List<Room>>> =
                         gson.fromJson(response, typeTokensList.typeRoomsList)
                     val new: BaseResponse<List<Room>> = BaseResponse(
@@ -114,6 +115,16 @@ class NetworkRepositoryImpl {
 //                    createRoomSubject.onNext(gson.fromJson(response, typeTokensList.typeRoom))
                 }
                 "get_messages" -> {
+                    val old: BaseResponse<Map<String, List<Message>>> =
+                        gson.fromJson(response, typeTokensList.typeMessagesList)
+
+                    val new: BaseResponse<List<Message>> = BaseResponse(
+                        old.status,
+                        old.request,
+                        old.errorMessage,
+                        old.data?.get("messages")
+                    )
+                    getMessagesSubject.onNext(new)
                 }
                 "send_message" -> {
                 }
@@ -172,6 +183,7 @@ class NetworkRepositoryImpl {
         })
     }
 
+    private var currentuser = 0
     suspend fun getMessages(token: String, roomId: Long) {
         formRequestObject("get_messages", JSONObject().apply {
             put("token", token)
@@ -207,6 +219,9 @@ class NetworkRepositoryImpl {
         val typeToken: Type by lazy { object : TypeToken<BaseResponse<Token>>() {}.type }
         val typeRoomsList: Type by lazy {
             object : TypeToken<BaseResponse<Map<String, List<Room>>>>() {}.type
+        }
+        val typeMessagesList: Type by lazy {
+            object : TypeToken<BaseResponse<Map<String, List<Message>>>>() {}.type
         }
     }
 }

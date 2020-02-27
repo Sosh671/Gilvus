@@ -38,6 +38,7 @@ class ChatFragment : BaseFragment() {
         })
 
         vm.getMessages(args.userId)
+        prefsHelper.getToken()?.let { vm.fetchMessagesFromNetwork(it, args.userId) }
     }
 
     private fun initRecyclerView() = with(binding) {

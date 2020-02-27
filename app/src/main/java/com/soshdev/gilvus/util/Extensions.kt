@@ -8,18 +8,18 @@ import android.view.View.VISIBLE
 import android.view.inputmethod.InputMethodManager
 import com.google.android.material.textfield.TextInputEditText
 import io.reactivex.Single
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 
 fun <T : Any> Single<T>.androidSubscribe() =
     this.subscribeOn(io.reactivex.schedulers.Schedulers.io())
         .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
 
-fun CoroutineScope.launchOnIO(block: suspend () -> Unit): Job {
-    return this.launch(Dispatchers.IO) {
+fun CoroutineScope.launchOnIO(
+    exceptionHandler: CoroutineExceptionHandler = CoroutineExceptionHandler { _, exception -> },
+    block: suspend () -> Unit
+): Job {
+    return this.launch(Dispatchers.IO + exceptionHandler) {
         block.invoke()
     }
 }

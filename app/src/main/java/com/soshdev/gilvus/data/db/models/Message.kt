@@ -2,7 +2,6 @@ package com.soshdev.gilvus.data.db.models
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
 
 @Entity(
@@ -28,7 +27,6 @@ data class Message @JvmOverloads constructor(
     val userId: Long,
     val date: Long,
     val text: String,
-
-    @Ignore
-    var sentByCurrentUser: Boolean = false
+    val sentByCurrentUser: Boolean,
+    val isRead: Boolean
 )
