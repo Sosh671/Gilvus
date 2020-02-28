@@ -24,8 +24,8 @@ class ChatViewModel(private val dbRepository: DbRepository): BaseViewModel() {
                     if (it.status)
                         it.data?.let { m ->
                             _messages.postValue(m.toArrayList())
+                            // todo save to db
                         }
-                    // todo save to db
 
                     // todo else
                 },

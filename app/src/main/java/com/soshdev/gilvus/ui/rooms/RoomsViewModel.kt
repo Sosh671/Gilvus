@@ -25,10 +25,9 @@ class RoomsViewModel(
                 onNext = {
                     if (it.status)
                         it.data?.let { rooms ->
-                            // todo check if local and server data differ
                             _rooms.postValue(rooms.toArrayList())
+                            // todo save to db
                         }
-                    // todo save to db
 
                     // todo else
                 },

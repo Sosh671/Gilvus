@@ -52,14 +52,15 @@ class NewRoomFragment : BaseFragment() {
     }
 
     private fun getContactList() {
-        context?.let {
-            if (!checkPermission(it)) {
+        context?.let { ctx ->
+            if (!checkPermission(ctx)) {
                 requestPermission()
             } else {
-                val helper = ContactsHelper(it)
+                val helper = ContactsHelper(ctx)
                 val list = helper.getContacts()
 
-                adapter.add(list)
+                val contacts = list.mapNotNull { c -> c.phone }.toTypedArray()
+                userToken?.let { vm.checkMyContactsExist(it, contacts) }
             }
         }
     }
@@ -88,6 +89,7 @@ class NewRoomFragment : BaseFragment() {
                 } else {
                     // permission denied,Disable the functionality that depends on this permission.
                     Timber.d("no permission")
+                    // todo no permission given
                 }
                 return
             }

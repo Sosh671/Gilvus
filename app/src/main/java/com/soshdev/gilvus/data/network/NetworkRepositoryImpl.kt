@@ -4,10 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.soshdev.gilvus.data.db.models.Message
 import com.soshdev.gilvus.data.db.models.Room
-import com.soshdev.gilvus.data.models.BaseResponse
-import com.soshdev.gilvus.data.models.Id
-import com.soshdev.gilvus.data.models.TestCode
-import com.soshdev.gilvus.data.models.Token
+import com.soshdev.gilvus.data.models.*
 import com.soshdev.gilvus.util.Constants
 import io.reactivex.subjects.PublishSubject
 import kotlinx.coroutines.*
@@ -81,6 +78,8 @@ class NetworkRepositoryImpl {
     val getRoomsSubject: PublishSubject<BaseResponse<List<Room>>> = PublishSubject.create()
     val createRoomSubject: PublishSubject<BaseResponse<Id>> = PublishSubject.create()
     val getMessagesSubject: PublishSubject<BaseResponse<List<Message>>> = PublishSubject.create()
+    val checkContactsSubject: PublishSubject<BaseResponse<List<IdAndPhone>>> =
+        PublishSubject.create()
 
     private val typeTokensList = TypeTokensList()
 
@@ -127,6 +126,18 @@ class NetworkRepositoryImpl {
                     getMessagesSubject.onNext(new)
                 }
                 "send_message" -> {
+                }
+                "check_contacts" -> {
+                    val old: BaseResponse<Map<String, List<IdAndPhone>>> =
+                        gson.fromJson(response, typeTokensList.idAndPhoneToken)
+
+                    val new: BaseResponse<List<IdAndPhone>> = BaseResponse(
+                        old.status,
+                        old.request,
+                        old.errorMessage,
+                        old.data?.get("registered_numbers")
+                    )
+                    checkContactsSubject.onNext(new)
                 }
             }
         } catch (e: Exception) {
@@ -199,6 +210,23 @@ class NetworkRepositoryImpl {
         })
     }
 
+    suspend fun checkContacts(token: String, array: Array<String>) {
+        formRequestObject("check_contacts", JSONObject().apply {
+            put("token", token)
+            put("phone_numbers",
+                JSONArray().also { jArray ->
+                    array.forEach { number ->
+                        jArray.put(JSONObject().apply {
+                            put(
+                                "number",
+                                number
+                            )
+                        })
+                    }
+                })
+        })
+    }
+
     private suspend fun formRequestObject(request: String, data: JSONObject) {
         val obj = JSONObject()
         obj.put("request", request)
@@ -208,7 +236,7 @@ class NetworkRepositoryImpl {
     }
 
     private suspend fun sendToServer(data: JSONObject) {
-        Timber.d("requested $data")
+        Timber.d("requested $data socket: ${socket?.isConnected}")
         withContext(Dispatchers.IO) {
             outStream?.write("$data\n".toByteArray())
         }
@@ -222,6 +250,9 @@ class NetworkRepositoryImpl {
         }
         val typeMessagesList: Type by lazy {
             object : TypeToken<BaseResponse<Map<String, List<Message>>>>() {}.type
+        }
+        val idAndPhoneToken: Type by lazy {
+            object : TypeToken<BaseResponse<Map<String, List<IdAndPhone>>>>() {}.type
         }
     }
 }
