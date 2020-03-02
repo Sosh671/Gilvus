@@ -12,11 +12,13 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.soshdev.gilvus.databinding.ActivityMainBinding
-import kotlinx.android.synthetic.main.test_switch_drawer.*
+import com.soshdev.gilvus.ui.base.SharedViewModel
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private val sharedViewModel by viewModel<SharedViewModel>()
 
     private val navController: NavController by lazy {
         findNavController(R.id.fragment_container)
@@ -45,6 +47,11 @@ class MainActivity : AppCompatActivity() {
         binding.navView.setupWithNavController(navController)
 
         setupDrawer()
+
+        // todo for testing remove later
+        binding.switchLayout.setOnClickListener { binding.drawerSwitch.toggle() }
+        binding.drawerSwitch.setOnCheckedChangeListener { _, _ -> sharedViewModel.toggleHostAndReconnect() }
+        binding.drawerBtn.setOnClickListener { sharedViewModel.reconnect() }
     }
 
     fun setupToolbar(toolbar: Toolbar, title: String?) {
@@ -74,11 +81,6 @@ class MainActivity : AppCompatActivity() {
 //                    viewModel.logout()
 //                    true
 //                }
-                R.id.switch_server_url -> {
-                    // todo looks bad
-                    drawer_switch?.toggle()
-                    true
-                }
                 else -> {
                     if (!menuItem.isChecked) {
                         val options = NavOptions.Builder()

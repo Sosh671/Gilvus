@@ -11,11 +11,4 @@
             android:title="@string/menu_home" />
     </group>
 
-    <group android:checkableBehavior="none">
-        <item
-            android:id="@+id/switch_server_url"
-            app:actionLayout="@layout/test_switch_drawer"
-            android:title="emulator localhost" />
-    </group>
-
 </menu>

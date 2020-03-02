@@ -47,6 +47,55 @@
         app:headerLayout="@layout/nav_header_main"
         app:itemIconTint="@android:color/black"
         app:itemTextColor="@android:color/black"
-        app:menu="@menu/activity_main_drawer" />
+        app:menu="@menu/activity_main_drawer">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/nav_view_bottom_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@color/disabled_layout"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/switch_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foreground="?attr/selectableItemBackground"
+                app:layout_constraintBottom_toTopOf="@id/drawer_btn"
+                app:layout_constraintStart_toStartOf="parent"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="emulator localhost"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/drawer_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:checked="true"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Button
+                android:id="@+id/drawer_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="reconnect"
+                app:layout_constraintTop_toBottomOf="@id/switch_layout" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

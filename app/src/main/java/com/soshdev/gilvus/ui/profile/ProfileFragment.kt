@@ -39,7 +39,7 @@ class ProfileFragment : BaseFragment() {
             GlobalScope.launch(Dispatchers.IO) {
                 try {
                     val socket = Socket()
-                    socket.connect(InetSocketAddress(Constants.emulatorAddress, Constants.port))
+                    socket.connect(InetSocketAddress(Constants.emulatorLocalHost, Constants.port))
                 } catch (e: Exception) {}
             }
         }

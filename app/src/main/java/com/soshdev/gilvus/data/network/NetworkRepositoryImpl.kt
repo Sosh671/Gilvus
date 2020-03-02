@@ -42,7 +42,7 @@ class NetworkRepositoryImpl {
         openConnection()
     }
 
-    fun openConnection(host: String = Constants.emulatorAddress) {
+    fun openConnection(host: String = Constants.emulatorLocalHost) {
         GlobalScope.launch(connectionExceptionHandler) {
             withContext(Dispatchers.IO) {
                 socket = Socket()
