@@ -13,6 +13,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.soshdev.gilvus.databinding.ActivityMainBinding
 import com.soshdev.gilvus.ui.base.SharedViewModel
+import com.soshdev.gilvus.util.Constants
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -50,6 +51,7 @@ class MainActivity : AppCompatActivity() {
 
         // todo for testing remove later
         binding.switchLayout.setOnClickListener { binding.drawerSwitch.toggle() }
+        binding.drawerSwitch.isChecked = sharedViewModel.host == Constants.emulatorLocalHost
         binding.drawerSwitch.setOnCheckedChangeListener { _, _ -> sharedViewModel.toggleHostAndReconnect() }
         binding.drawerBtn.setOnClickListener { sharedViewModel.reconnect() }
     }

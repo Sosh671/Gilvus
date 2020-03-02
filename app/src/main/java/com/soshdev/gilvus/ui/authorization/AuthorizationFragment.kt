@@ -11,9 +11,9 @@ import com.soshdev.gilvus.R
 import com.soshdev.gilvus.data.AuthorizationState
 import com.soshdev.gilvus.databinding.FragmentAutorizationBinding
 import com.soshdev.gilvus.ui.base.BaseFragment
+import com.soshdev.gilvus.util.Constants
 import com.soshdev.gilvus.util.showKeyboard
 import org.koin.android.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
 class AuthorizationFragment : BaseFragment() {
 
@@ -33,7 +33,7 @@ class AuthorizationFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         checkToken()
-
+        vm.state = AuthorizationState.LOGIN
         vm.testCode.observe(viewLifecycleOwner, Observer {
             // todo temp solution
             if (it > 0) {
@@ -47,11 +47,12 @@ class AuthorizationFragment : BaseFragment() {
                 vm.testClear()
             }
         })
-        vm.state = AuthorizationState.LOGIN
-
         initUI()
-
         testPutPhone()
+
+        // todo for testing
+        binding.testSwitch.isChecked = sharedViewModel.host == Constants.emulatorLocalHost
+        binding.testSwitch.setOnCheckedChangeListener { _, _ -> sharedViewModel.toggleHostAndReconnect() }
     }
 
     private fun initUI() {

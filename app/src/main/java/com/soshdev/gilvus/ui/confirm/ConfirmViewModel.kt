@@ -1,5 +1,7 @@
 package com.soshdev.gilvus.ui.confirm
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.soshdev.gilvus.ui.base.BaseViewModel
 import com.soshdev.gilvus.util.PrefsHelper
@@ -10,11 +12,17 @@ import timber.log.Timber
 
 class ConfirmViewModel(private val prefsHelper: PrefsHelper) : BaseViewModel() {
 
+    private val _successfulAuthorization = MutableLiveData<Boolean>()
+    val successfulAuthorization: LiveData<Boolean> = _successfulAuthorization
+
     init {
         disposables += networkRepository.confirmLoginSubject.subscribeBy(
             onNext = {
                 if (it.status) {
-                    it.data?.token?.let { token -> prefsHelper.putToken(token) }
+                    it.data?.token?.let { token ->
+                        prefsHelper.putToken(token)
+                        _successfulAuthorization.value = true
+                    }
                 }
                 //todo else
             },

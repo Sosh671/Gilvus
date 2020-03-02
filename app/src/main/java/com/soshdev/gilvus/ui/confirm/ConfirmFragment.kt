@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.soshdev.gilvus.R
@@ -33,10 +34,13 @@ class ConfirmFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        vm.successfulAuthorization.observe(viewLifecycleOwner, Observer {
+            if (it)
+                findNavController().navigate(ConfirmFragmentDirections.homeDestination())
+            // todo else
+        })
         binding.txCodeSend.text = getString(R.string.code_sent_to, args.phoneNumber)
         binding.btnConfirm.setOnClickListener {
-            // todo navigation on btn click - wrong, check request status
-            findNavController().navigate(ConfirmFragmentDirections.homeDestination())
             if (isRegistration)
                 vm.confirmRegistration(phoneNumber, smsCode)
             else

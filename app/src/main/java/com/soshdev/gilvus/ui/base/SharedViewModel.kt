@@ -4,7 +4,8 @@ import com.soshdev.gilvus.util.Constants
 
 class SharedViewModel : BaseViewModel() {
 
-    private var host = Constants.emulatorLocalHost
+    var host = Constants.emulatorLocalHost
+        private set
 
     fun toggleHostAndReconnect() {
         host = if (host == Constants.emulatorLocalHost)

@@ -18,7 +18,7 @@ open class BaseFragment : Fragment() {
 
     protected val prefsHelper: PrefsHelper by lazy { PrefsHelper(context!!.applicationContext) }
     protected val userToken by lazy { prefsHelper.getToken() }
-    private val sharedViewModel by sharedViewModel<SharedViewModel>()
+    protected val sharedViewModel by sharedViewModel<SharedViewModel>()
     private val authorizationDestinations = intArrayOf(
         R.id.authorization,
         R.id.confirm
@@ -38,11 +38,17 @@ open class BaseFragment : Fragment() {
             }
     }
 
+    override fun onStop() {
+        super.onStop()
+        sharedViewModel.clearErrors()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         sharedViewModel.serverConnectionLost.observe(viewLifecycleOwner, Observer {
-            view.showSnackbar(R.string.server_connection_lost, actionText = R.string.retry,
-                actionListener = View.OnClickListener { sharedViewModel.reconnect() })
+            if (it)
+                view.showSnackbar(R.string.server_connection_lost, actionText = R.string.retry,
+                    actionListener = View.OnClickListener { sharedViewModel.reconnect() })
         })
     }
 

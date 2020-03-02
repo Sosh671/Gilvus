@@ -43,7 +43,7 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
     }
 
     fun clearErrors() {
-//        errors.value = null
+        _serverConnectionLost.value = false
     }
 
     protected fun onError(e: Throwable) {

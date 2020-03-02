@@ -9,11 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.soshdev.gilvus.R
 import com.soshdev.gilvus.databinding.FragmentNewroomBinding
 import com.soshdev.gilvus.ui.base.BaseFragment
 import com.soshdev.gilvus.util.ContactsHelper
 import com.soshdev.gilvus.util.showSnackbar
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
@@ -62,10 +65,12 @@ class NewRoomFragment : BaseFragment() {
             if (!checkPermission(ctx)) {
                 requestPermission()
             } else {
-                val helper = ContactsHelper(ctx)
-                val list = helper.getContacts()
-                adapter.add(list)
-                userToken?.let { vm.checkMyContactsExist(it, list) }
+                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
+                    val helper = ContactsHelper(ctx)
+                    val list = helper.getContacts()
+                    adapter.add(list)
+                    userToken?.let { vm.checkMyContactsExist(it, list) }
+                }
             }
         }
     }

@@ -87,4 +87,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_confirm" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="emulator host"
+        app:layout_constraintBottom_toBottomOf="@id/test_switch"
+        app:layout_constraintEnd_toStartOf="@id/test_switch"
+        app:layout_constraintTop_toTopOf="@id/test_switch" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/test_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
