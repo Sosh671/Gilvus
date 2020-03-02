@@ -36,7 +36,7 @@ class NewRoomFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupToolbar(binding.toolbar, R.string.home)
+        setupToolbar(binding.toolbar, R.string.new_room)
         initRecyclerView()
         getContactList()
 

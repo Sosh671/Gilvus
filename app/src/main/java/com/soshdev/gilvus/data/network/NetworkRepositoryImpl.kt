@@ -31,41 +31,42 @@ class NetworkRepositoryImpl {
         Timber.e(exception)
         // todo coroutine exception
     }
+    private val connectionExceptionHandler = CoroutineExceptionHandler { _, exception ->
+        Timber.e(exception)
+        closeConnection()
+        socketExceptionSubject.onNext(true)
+    }
+    val socketExceptionSubject: PublishSubject<Boolean> = PublishSubject.create()
 
     init {
         openConnection()
     }
 
-    fun openConnection() {
-        try {
-            GlobalScope.launch(exceptionHandler) {
-                withContext(Dispatchers.IO) {
-                    socket = Socket()
-                    socket!!.connect(
-                        InetSocketAddress(Constants.emulatorAddress, Constants.port),
-                        timeoutSize
-                    )
-                    outStream = socket!!.getOutputStream()
-                    inStream = socket!!.getInputStream()
-                    Timber.d("socket $socket")
+    fun openConnection(host: String = Constants.emulatorAddress) {
+        GlobalScope.launch(connectionExceptionHandler) {
+            withContext(Dispatchers.IO) {
+                socket = Socket()
+                socket!!.connect(
+                    InetSocketAddress(host, Constants.port),
+                    timeoutSize
+                )
+                outStream = socket!!.getOutputStream()
+                inStream = socket!!.getInputStream()
+                Timber.d("socket $socket")
 
-                    val reader = BufferedReader(InputStreamReader(inStream!!))
-                    var line = reader.readLine()
-                    while (line != null) {
-                        Timber.d("received from server: $line")
-                        handleServerResponse(line)
+                val reader = BufferedReader(InputStreamReader(inStream!!))
+                var line = reader.readLine()
+                while (line != null) {
+                    Timber.d("received from server: $line")
+                    handleServerResponse(line)
 
-                        line = reader.readLine()
-                    }
+                    line = reader.readLine()
                 }
             }
-        } catch (e: Exception) {
-            Timber.e(e)
-            closeConnection()
         }
     }
 
-    fun closeConnection() {
+    private fun closeConnection() {
         inStream = null
         outStream = null
         socket = null

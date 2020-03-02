@@ -6,6 +6,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.inputmethod.InputMethodManager
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import io.reactivex.Single
 import kotlinx.coroutines.*
@@ -22,6 +23,18 @@ fun CoroutineScope.launchOnIO(
     return this.launch(Dispatchers.IO + exceptionHandler) {
         block.invoke()
     }
+}
+
+fun View.showSnackbar(
+    resId: Int,
+    duration: Int = Snackbar.LENGTH_SHORT,
+    actionText: Int? = null,
+    actionListener: View.OnClickListener? = null
+) {
+    val snack = Snackbar.make(this, this.context.applicationContext.getText(resId), duration)
+    if (actionText != null && actionListener != null)
+        snack.setAction(actionText, actionListener)
+    snack.show()
 }
 
 fun <T> Collection<T>.contentEquals(c: Collection<T>?) =

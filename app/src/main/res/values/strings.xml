@@ -26,4 +26,7 @@
     <string name="code_sent_to">Confirmation code was sent to: %1$s</string>
     <string name="registration">Registration</string>
     <string name="already_have_account">already have an account?</string>
+    <string name="server_connection_lost">Server connection lost</string>
+    <string name="retry">Retry</string>
+    <string name="new_room">New room</string>
 </resources>

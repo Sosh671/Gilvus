@@ -2,18 +2,23 @@ package com.soshdev.gilvus.ui.base
 
 import android.content.Context
 import android.os.Bundle
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.soshdev.gilvus.MainActivity
 import com.soshdev.gilvus.R
 import com.soshdev.gilvus.util.PrefsHelper
+import com.soshdev.gilvus.util.showSnackbar
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 open class BaseFragment : Fragment() {
 
     protected val prefsHelper: PrefsHelper by lazy { PrefsHelper(context!!.applicationContext) }
     protected val userToken by lazy { prefsHelper.getToken() }
+    private val sharedViewModel by sharedViewModel<SharedViewModel>()
     private val authorizationDestinations = intArrayOf(
         R.id.authorization,
         R.id.confirm
@@ -31,6 +36,14 @@ open class BaseFragment : Fragment() {
                 if (it.id !in authorizationDestinations)
                     findNavController().navigate(R.id.global_authorization_destination)
             }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        sharedViewModel.serverConnectionLost.observe(viewLifecycleOwner, Observer {
+            view.showSnackbar(R.string.server_connection_lost, actionText = R.string.retry,
+                actionListener = View.OnClickListener { sharedViewModel.reconnect() })
+        })
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

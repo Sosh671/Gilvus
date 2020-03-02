@@ -8,6 +8,7 @@ import com.soshdev.gilvus.data.DbRepository
 import com.soshdev.gilvus.data.db.GilvusDb
 import com.soshdev.gilvus.data.network.NetworkRepositoryImpl
 import com.soshdev.gilvus.ui.authorization.AuthorizationViewModel
+import com.soshdev.gilvus.ui.base.SharedViewModel
 import com.soshdev.gilvus.ui.chat.ChatViewModel
 import com.soshdev.gilvus.ui.confirm.ConfirmViewModel
 import com.soshdev.gilvus.ui.newroom.NewRoomViewModel
@@ -25,6 +26,7 @@ val viewModelModule = module {
     viewModel { NewRoomViewModel(get()) }
     viewModel { AuthorizationViewModel() }
     viewModel { ConfirmViewModel(get()) }
+    viewModel { SharedViewModel() }
 }
 
 val dataModule = module {

@@ -12,6 +12,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.soshdev.gilvus.databinding.ActivityMainBinding
+import kotlinx.android.synthetic.main.test_switch_drawer.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -73,6 +74,11 @@ class MainActivity : AppCompatActivity() {
 //                    viewModel.logout()
 //                    true
 //                }
+                R.id.switch_server_url -> {
+                    // todo looks bad
+                    drawer_switch?.toggle()
+                    true
+                }
                 else -> {
                     if (!menuItem.isChecked) {
                         val options = NavOptions.Builder()
