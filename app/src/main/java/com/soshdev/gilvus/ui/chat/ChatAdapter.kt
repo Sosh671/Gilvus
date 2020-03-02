@@ -27,7 +27,7 @@ class ChatAdapter : BaseRecyclerViewAdapter<Message, BaseViewHolder<ViewBinding>
 
     override fun bindHolder(item: Message, holder: BaseViewHolder<ViewBinding>, position: Int) =
         holder.binding.let { binding ->
-            when (binding ) {
+            when (binding) {
                 is ItemMessageReceivedBinding -> {
                     binding.txMessage.text = item.text
                 }
@@ -38,11 +38,10 @@ class ChatAdapter : BaseRecyclerViewAdapter<Message, BaseViewHolder<ViewBinding>
             }
         }
 
-    override fun getItemViewType(position: Int): Int {
-        val switch = items[position].sentByCurrentUser
-        return if (switch)
+    override fun getItemViewType(position: Int): Int =
+        if (items[position].sentByCurrentUser)
             TYPE_MESSAGE_SENT
         else
             TYPE_MESSAGE_RECEIVED
-    }
+
 }

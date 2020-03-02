@@ -13,6 +13,7 @@ import com.soshdev.gilvus.R
 import com.soshdev.gilvus.databinding.FragmentNewroomBinding
 import com.soshdev.gilvus.ui.base.BaseFragment
 import com.soshdev.gilvus.util.ContactsHelper
+import com.soshdev.gilvus.util.showSnackbar
 import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
@@ -21,7 +22,9 @@ class NewRoomFragment : BaseFragment() {
 
     private lateinit var binding: FragmentNewroomBinding
     private val vm: NewRoomViewModel by viewModel()
-    private val adapter = NewRoomAdapter { vm.selectContact(it) }
+    private val adapter = NewRoomAdapter {contact ->
+        contact?.let {  vm.selectContact(it)  }?: binding.appBar.showSnackbar(R.string.contact_not_registered)
+    }
     private val REQUEST_READ_CONTACTS = 22
 
     override fun onCreateView(

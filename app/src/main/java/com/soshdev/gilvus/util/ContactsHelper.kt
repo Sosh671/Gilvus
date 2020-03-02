@@ -8,7 +8,6 @@ import android.net.Uri
 import android.provider.ContactsContract
 import androidx.core.database.getIntOrNull
 import com.soshdev.gilvus.data.models.Contact
-import timber.log.Timber
 
 class ContactsHelper(private val context: Context) {
 
@@ -38,11 +37,11 @@ class ContactsHelper(private val context: Context) {
                 val contactPhoneNumber = getPhoneNumber(cr, contactCursor, id)
                 val contactPhotoUri = getPhoto(cr, id)
 
-                Timber.d("Name: $contactName")
-                Timber.d("Phone Number: $contactPhoneNumber")
-                Timber.d("Photo uri: $contactPhotoUri")
+//                Timber.d("Name: $contactName")
+//                Timber.d("Phone Number: $contactPhoneNumber")
+//                Timber.d("Photo uri: $contactPhotoUri")
 
-                array.add(Contact(contactName, contactPhoneNumber, contactPhotoUri))
+                array.add(Contact(contactName, contactPhoneNumber, contactPhotoUri, false))
             }
 
         }
