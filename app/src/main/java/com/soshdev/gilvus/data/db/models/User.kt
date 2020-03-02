@@ -7,9 +7,10 @@ import androidx.room.PrimaryKey
 data class User(
 
     @PrimaryKey
-    val id: Int?,
+    var id: Long?,
 
     val name: String,
     val phone: String?,
-    val avatarUrl: String?
+    val avatarUrl: String?,
+    var registered: Boolean
 )

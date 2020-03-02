@@ -41,10 +41,7 @@ class RoomsFragment : BaseFragment() {
             findNavController().navigate(RoomsFragmentDirections.newRoomDestination())
         }
 
-        vm.rooms.observe(viewLifecycleOwner, Observer {
-            adapter.clear()
-            adapter.add(it)
-        })
+        vm.rooms.observe(viewLifecycleOwner, Observer { adapter.replace(it) })
 
         userToken?.let { vm.getRooms(it) }
     }

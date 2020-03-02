@@ -37,6 +37,10 @@ fun View.showSnackbar(
     snack.show()
 }
 
+fun String.compareRawPhoneNumbers(number: String) = this.dirtyStringToNumbers() == number.dirtyStringToNumbers()
+
+fun String.dirtyStringToNumbers() = replace(Regex("[^0-9]+"), "")
+
 fun <T> Collection<T>.contentEquals(c: Collection<T>?) =
     c?.let { size == c.size && containsAll(c) } ?: false
 

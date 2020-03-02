@@ -18,12 +18,14 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 
+@Suppress("PrivatePropertyName")
 class NewRoomFragment : BaseFragment() {
 
     private lateinit var binding: FragmentNewroomBinding
     private val vm: NewRoomViewModel by viewModel()
-    private val adapter = NewRoomAdapter {contact ->
-        contact?.let {  vm.selectContact(it)  }?: binding.appBar.showSnackbar(R.string.contact_not_registered)
+    private val adapter = NewRoomAdapter { contact ->
+        contact?.let { vm.selectContact(it) }
+            ?: binding.appBar.showSnackbar(R.string.contact_not_registered)
     }
     private val REQUEST_READ_CONTACTS = 22
 
@@ -43,7 +45,8 @@ class NewRoomFragment : BaseFragment() {
         initRecyclerView()
         getContactList()
 
-        vm.roomTitle.observe(viewLifecycleOwner, Observer { binding.edTitle.setText(it)} )
+        vm.validatedContacts.observe(viewLifecycleOwner, Observer { adapter.replace(it) })
+        vm.roomTitle.observe(viewLifecycleOwner, Observer { binding.edTitle.setText(it) })
 
         binding.fabSave.setOnClickListener { vm.addRoom() }
     }
@@ -61,9 +64,8 @@ class NewRoomFragment : BaseFragment() {
             } else {
                 val helper = ContactsHelper(ctx)
                 val list = helper.getContacts()
-
-                val contacts = list.mapNotNull { c -> c.phone }.toTypedArray()
-                userToken?.let { vm.checkMyContactsExist(it, contacts) }
+                adapter.add(list)
+                userToken?.let { vm.checkMyContactsExist(it, list) }
             }
         }
     }

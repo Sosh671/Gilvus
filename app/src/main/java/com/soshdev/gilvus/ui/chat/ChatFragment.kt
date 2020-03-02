@@ -32,10 +32,7 @@ class ChatFragment : BaseFragment() {
         setupToolbar(binding.toolbar, R.string.home)
         initRecyclerView()
 
-        vm.messages.observe(viewLifecycleOwner, Observer {
-            adapter.clear()
-            adapter.add(it)
-        })
+        vm.messages.observe(viewLifecycleOwner, Observer { adapter.replace(it) })
 
         vm.getMessages(args.userId)
         prefsHelper.getToken()?.let { vm.fetchMessagesFromNetwork(it, args.userId) }

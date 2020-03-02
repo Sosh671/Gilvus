@@ -7,11 +7,11 @@ import android.database.Cursor
 import android.net.Uri
 import android.provider.ContactsContract
 import androidx.core.database.getIntOrNull
-import com.soshdev.gilvus.data.models.Contact
+import com.soshdev.gilvus.data.db.models.User
 
 class ContactsHelper(private val context: Context) {
 
-    fun getContacts(): List<Contact> {
+    fun getContacts(): List<User> {
         val cr = context.contentResolver
         val contactCursor: Cursor? = cr?.query(
             ContactsContract.Contacts.CONTENT_URI,
@@ -25,7 +25,7 @@ class ContactsHelper(private val context: Context) {
             null
         )
 
-        val array = ArrayList<Contact>()
+        val array = ArrayList<User>()
 
         if ((contactCursor?.count ?: 0) > 0) {
             while (contactCursor != null && contactCursor.moveToNext()) {
@@ -41,7 +41,7 @@ class ContactsHelper(private val context: Context) {
 //                Timber.d("Phone Number: $contactPhoneNumber")
 //                Timber.d("Photo uri: $contactPhotoUri")
 
-                array.add(Contact(contactName, contactPhoneNumber, contactPhotoUri, false))
+                array.add(User(null, contactName, contactPhoneNumber, "$contactPhotoUri", false))
             }
 
         }

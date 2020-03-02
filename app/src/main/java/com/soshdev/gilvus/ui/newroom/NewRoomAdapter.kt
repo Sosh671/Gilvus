@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.snackbar.Snackbar
 import com.soshdev.gilvus.R
-import com.soshdev.gilvus.data.models.Contact
+import com.soshdev.gilvus.data.db.models.User
 import com.soshdev.gilvus.databinding.ItemContactBinding
 import com.soshdev.gilvus.databinding.ItemContactDisabledBinding
 import com.soshdev.gilvus.ui.base.BaseRecyclerViewAdapter
@@ -14,12 +14,12 @@ import com.soshdev.gilvus.util.begone
 import com.soshdev.gilvus.util.showUp
 
 @Suppress("PrivatePropertyName")
-class NewRoomAdapter(private val userClicked: (contact: Contact?) -> Unit) :
-    BaseRecyclerViewAdapter<Contact, BaseViewHolder<ViewBinding>>() {
+class NewRoomAdapter(private val userClicked: (contact: User?) -> Unit) :
+    BaseRecyclerViewAdapter<User, BaseViewHolder<ViewBinding>>() {
 
     private val TYPE_CONTACT_AVAILABLE = 1
     private val TYPE_CONTACT_UNAVAILABLE = 2
-    private val selectedContacts = ArrayList<Contact>()
+    private val selectedContacts = ArrayList<User>()
 
     override fun createHolder(
         inflater: LayoutInflater,
@@ -33,12 +33,19 @@ class NewRoomAdapter(private val userClicked: (contact: Contact?) -> Unit) :
     }
 
     override fun bindHolder(
-        item: Contact,
+        item: User,
         holder: BaseViewHolder<ViewBinding>,
         position: Int
     ) =
         holder.binding.run {
             when (this) {
+                is ItemContactDisabledBinding -> {
+                    txName.text = item.name
+                    item.phone?.let { txPhone.text = it }
+                    layoutRoot.setOnClickListener {
+                        userClicked.invoke(null)
+                    }
+                }
                 is ItemContactBinding -> {
                     txName.text = item.name
                     item.phone?.let { txPhone.text = it }
@@ -62,23 +69,6 @@ class NewRoomAdapter(private val userClicked: (contact: Contact?) -> Unit) :
                         }
 
                         userClicked.invoke(item)
-                    }
-                }
-                is ItemContactDisabledBinding -> {
-                    txName.text = item.name
-                    item.phone?.let { txPhone.text = it }
-                    layoutRoot.setOnClickListener {
-                        if (item.phone == null) {
-                            Snackbar.make(
-                                root,
-                                R.string.cant_add_user_wo_phone,
-                                Snackbar.LENGTH_SHORT
-                            )
-                                .show()
-                            return@setOnClickListener
-                        }
-
-                        userClicked.invoke(null)
                     }
                 }
             }

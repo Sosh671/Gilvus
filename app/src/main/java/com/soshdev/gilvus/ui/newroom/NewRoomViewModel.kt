@@ -4,8 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.soshdev.gilvus.data.DbRepository
-import com.soshdev.gilvus.data.models.Contact
+import com.soshdev.gilvus.data.db.models.User
 import com.soshdev.gilvus.ui.base.BaseViewModel
+import com.soshdev.gilvus.util.compareRawPhoneNumbers
 import com.soshdev.gilvus.util.launchOnIO
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
@@ -13,10 +14,14 @@ import timber.log.Timber
 
 class NewRoomViewModel(private val dbRepository: DbRepository) : BaseViewModel() {
 
-    private val selectedContacts = ArrayList<Contact>()
+    private val allContacts = ArrayList<User>()
+    private val selectedContacts = ArrayList<User>()
 
     private val _roomTitle = MutableLiveData<String>()
     val roomTitle: LiveData<String> = _roomTitle
+
+    private val _validatedContacts = MutableLiveData<List<User>>()
+    val validatedContacts: LiveData<List<User>> = _validatedContacts
 
     init {
         disposables += networkRepository.checkContactsSubject
@@ -24,8 +29,17 @@ class NewRoomViewModel(private val dbRepository: DbRepository) : BaseViewModel()
                 onNext = {
                     if (it.status)
                         it.data?.let { contacts ->
-//                            _rooms.postValue(rooms.toArrayList())
-                            Timber.d("con $contacts")
+                            for (contact in allContacts) {
+                                val index = contacts.indexOfFirst { idAndPhone ->
+                                    contact.phone?.compareRawPhoneNumbers(idAndPhone.phone) ?: false
+                                }
+                                if (index >= 0) {
+                                    contact.id = contacts[index].id
+                                    contact.registered = true
+                                }
+                            }
+
+                            _validatedContacts.value = allContacts
                             // todo save to db
                         }
 
@@ -38,23 +52,29 @@ class NewRoomViewModel(private val dbRepository: DbRepository) : BaseViewModel()
             )
     }
 
-    fun selectContact(contact: Contact) {
-        if (selectedContacts.contains(contact))
-            selectedContacts.remove(contact)
-        else
-            selectedContacts.add(contact)
+    fun checkMyContactsExist(token: String, contacts: List<User>) {
+        allContacts.clear()
+        allContacts.addAll(contacts)
 
-        _roomTitle.value = generateTitle()
+        viewModelScope.launchOnIO {
+            networkRepository.checkContacts(
+                token,
+                contacts.mapNotNull { c -> c.phone }.toTypedArray()
+            )
+        }
     }
 
     fun addRoom() {
         val title = roomTitle.value ?: return
     }
 
-    fun checkMyContactsExist(token: String, contacts: Array<String>) {
-        viewModelScope.launchOnIO {
-            networkRepository.checkContacts(token, contacts)
-        }
+    fun selectContact(contact: User) {
+        if (selectedContacts.contains(contact))
+            selectedContacts.remove(contact)
+        else
+            selectedContacts.add(contact)
+
+        _roomTitle.value = generateTitle()
     }
 
     private fun generateTitle(): String {

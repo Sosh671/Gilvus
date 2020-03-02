@@ -3,9 +3,8 @@ package com.soshdev.gilvus.ui.base
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import timber.log.Timber
 
-abstract class BaseRecyclerViewAdapter<ITEM, VH: RecyclerView.ViewHolder>
+abstract class BaseRecyclerViewAdapter<ITEM, VH : RecyclerView.ViewHolder>
     : RecyclerView.Adapter<VH>() {
 
     protected val items = ArrayList<ITEM>()
@@ -43,6 +42,12 @@ abstract class BaseRecyclerViewAdapter<ITEM, VH: RecyclerView.ViewHolder>
     }
 
     fun add(list: List<ITEM>) {
+        items.addAll(list)
+        notifyItemRangeChanged(items.size - list.size, list.size)
+    }
+
+    fun replace(list: List<ITEM>) {
+        items.clear()
         items.addAll(list)
         notifyItemRangeChanged(items.size - list.size, list.size)
     }
