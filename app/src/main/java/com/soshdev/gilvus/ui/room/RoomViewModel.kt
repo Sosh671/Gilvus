@@ -1,4 +1,4 @@
-package com.soshdev.gilvus.ui.chat
+package com.soshdev.gilvus.ui.room
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,7 +12,7 @@ import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
 import timber.log.Timber
 
-class ChatViewModel(private val dbRepository: DbRepository): BaseViewModel() {
+class RoomViewModel(private val dbRepository: DbRepository): BaseViewModel() {
 
     private val _messages = MutableLiveData<List<Message>>()
     val messages: LiveData<List<Message>> = _messages
@@ -24,7 +24,6 @@ class ChatViewModel(private val dbRepository: DbRepository): BaseViewModel() {
                     if (it.status)
                         it.data?.let { m ->
                             _messages.postValue(m.toArrayList())
-                            // todo save to db
                         }
 
                     // todo else

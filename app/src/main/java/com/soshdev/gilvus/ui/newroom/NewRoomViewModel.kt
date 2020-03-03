@@ -43,7 +43,6 @@ class NewRoomViewModel(private val dbRepository: DbRepository) : BaseViewModel()
                             }
 
                             _validatedContacts.postValue(allContacts)
-                            // todo save to db
                         }
 
                     // todo else

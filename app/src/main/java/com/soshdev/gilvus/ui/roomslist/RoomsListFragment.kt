@@ -1,4 +1,4 @@
-package com.soshdev.gilvus.ui.rooms
+package com.soshdev.gilvus.ui.roomslist
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,18 +7,18 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.soshdev.gilvus.R
-import com.soshdev.gilvus.databinding.FragmentChatListBinding
+import com.soshdev.gilvus.databinding.FragmentRoomsListBinding
 import com.soshdev.gilvus.ui.base.BaseFragment
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class RoomsFragment : BaseFragment() {
+class RoomsListFragment : BaseFragment() {
 
-    private lateinit var binding: FragmentChatListBinding
-    private val vm: RoomsViewModel by viewModel()
+    private lateinit var binding: FragmentRoomsListBinding
+    private val vm: RoomsListViewModel by viewModel()
     private val adapter =
-        RoomsAdapter {
+        RoomsListAdapter {
             findNavController().navigate(
-                RoomsFragmentDirections.chatDestination(it ?: return@RoomsAdapter)
+                RoomsListFragmentDirections.chatDestination(it ?: return@RoomsListAdapter)
             )
         }
 
@@ -27,7 +27,7 @@ class RoomsFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentChatListBinding.inflate(inflater, container, false)
+        binding = FragmentRoomsListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -38,7 +38,7 @@ class RoomsFragment : BaseFragment() {
         initRecyclerView()
 
         binding.fab.setOnClickListener {
-            findNavController().navigate(RoomsFragmentDirections.newRoomDestination())
+            findNavController().navigate(RoomsListFragmentDirections.newRoomDestination())
         }
 
         vm.rooms.observe(viewLifecycleOwner, Observer { adapter.replace(it) })

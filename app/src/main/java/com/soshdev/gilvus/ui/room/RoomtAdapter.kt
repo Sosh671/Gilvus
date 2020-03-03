@@ -1,4 +1,4 @@
-package com.soshdev.gilvus.ui.chat
+package com.soshdev.gilvus.ui.room
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,7 +9,7 @@ import com.soshdev.gilvus.databinding.ItemMessageSentBinding
 import com.soshdev.gilvus.ui.base.BaseRecyclerViewAdapter
 import com.soshdev.gilvus.ui.base.BaseViewHolder
 
-class ChatAdapter : BaseRecyclerViewAdapter<Message, BaseViewHolder<ViewBinding>>() {
+class RoomtAdapter : BaseRecyclerViewAdapter<Message, BaseViewHolder<ViewBinding>>() {
 
     private val TYPE_MESSAGE_SENT = 1
     private val TYPE_MESSAGE_RECEIVED = 2

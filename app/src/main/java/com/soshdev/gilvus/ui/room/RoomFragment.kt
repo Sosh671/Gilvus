@@ -1,4 +1,4 @@
-package com.soshdev.gilvus.ui.chat
+package com.soshdev.gilvus.ui.room
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,23 +7,23 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.soshdev.gilvus.R
-import com.soshdev.gilvus.databinding.FragmentChatBinding
+import com.soshdev.gilvus.databinding.FragmentRoomBinding
 import com.soshdev.gilvus.ui.base.BaseFragment
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class ChatFragment : BaseFragment() {
+class RoomFragment : BaseFragment() {
 
-    private lateinit var binding: FragmentChatBinding
-    private val vm: ChatViewModel by viewModel()
-    private val adapter = ChatAdapter()
-    private val args: ChatFragmentArgs by navArgs()
+    private lateinit var binding: FragmentRoomBinding
+    private val vm: RoomViewModel by viewModel()
+    private val adapter = RoomtAdapter()
+    private val args: RoomFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentChatBinding.inflate(inflater, container, false)
+        binding = FragmentRoomBinding.inflate(inflater, container, false)
         return binding.root
     }
 

@@ -9,19 +9,19 @@ import com.soshdev.gilvus.data.db.GilvusDb
 import com.soshdev.gilvus.data.network.NetworkRepositoryImpl
 import com.soshdev.gilvus.ui.authorization.AuthorizationViewModel
 import com.soshdev.gilvus.ui.base.SharedViewModel
-import com.soshdev.gilvus.ui.chat.ChatViewModel
+import com.soshdev.gilvus.ui.room.RoomViewModel
 import com.soshdev.gilvus.ui.confirm.ConfirmViewModel
 import com.soshdev.gilvus.ui.newroom.NewRoomViewModel
 import com.soshdev.gilvus.ui.profile.ProfileViewModel
-import com.soshdev.gilvus.ui.rooms.RoomsViewModel
+import com.soshdev.gilvus.ui.roomslist.RoomsListViewModel
 import com.soshdev.gilvus.util.PrefsHelper
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val viewModelModule = module {
-    viewModel { RoomsViewModel(get()) }
-    viewModel { ChatViewModel(get()) }
+    viewModel { RoomsListViewModel(get()) }
+    viewModel { RoomViewModel(get()) }
     viewModel { ProfileViewModel() }
     viewModel { NewRoomViewModel(get()) }
     viewModel { AuthorizationViewModel() }

@@ -1,4 +1,4 @@
-package com.soshdev.gilvus.ui.rooms
+package com.soshdev.gilvus.ui.roomslist
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,7 +7,7 @@ import com.soshdev.gilvus.databinding.ItemRoomBinding
 import com.soshdev.gilvus.ui.base.BaseRecyclerViewAdapter
 import com.soshdev.gilvus.ui.base.BaseViewHolder
 
-class RoomsAdapter(private val userClicked: (userId: Long?) -> Unit) :
+class RoomsListAdapter(private val userClicked: (userId: Long?) -> Unit) :
     BaseRecyclerViewAdapter<Room, BaseViewHolder<ItemRoomBinding>>() {
 
     override fun createHolder(

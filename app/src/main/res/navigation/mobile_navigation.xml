@@ -52,8 +52,8 @@
 
     <fragment
         android:id="@+id/home"
-        android:name="com.soshdev.gilvus.ui.rooms.RoomsFragment"
-        tools:layout="@layout/fragment_chat_list">
+        android:name="com.soshdev.gilvus.ui.roomslist.RoomsListFragment"
+        tools:layout="@layout/fragment_rooms_list">
 
         <action
             android:id="@+id/chat_destination"
@@ -67,8 +67,8 @@
 
     <fragment
         android:id="@+id/chat"
-        android:name="com.soshdev.gilvus.ui.chat.ChatFragment"
-        tools:layout="@layout/fragment_chat">
+        android:name="com.soshdev.gilvus.ui.room.RoomFragment"
+        tools:layout="@layout/fragment_room">
 
         <argument
             android:name="user_id"

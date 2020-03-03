@@ -1,4 +1,4 @@
-package com.soshdev.gilvus.ui.rooms
+package com.soshdev.gilvus.ui.roomslist
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,7 +12,7 @@ import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
 import timber.log.Timber
 
-class RoomsViewModel(
+class RoomsListViewModel(
     private val dbRepository: DbRepository
 ) : BaseViewModel() {
 
@@ -26,7 +26,6 @@ class RoomsViewModel(
                     if (it.status)
                         it.data?.let { rooms ->
                             _rooms.postValue(rooms.toArrayList())
-                            // todo save to db
                         }
 
                     // todo else
