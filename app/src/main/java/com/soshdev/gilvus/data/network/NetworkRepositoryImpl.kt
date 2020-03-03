@@ -11,10 +11,7 @@ import kotlinx.coroutines.*
 import org.json.JSONArray
 import org.json.JSONObject
 import timber.log.Timber
-import java.io.BufferedReader
-import java.io.InputStream
-import java.io.InputStreamReader
-import java.io.OutputStream
+import java.io.*
 import java.lang.reflect.Type
 import java.net.InetSocketAddress
 import java.net.Socket
@@ -27,10 +24,7 @@ class NetworkRepositoryImpl {
     private var outStream: OutputStream? = null
     private var inStream: InputStream? = null
     private val gson by lazy { Gson() }
-    private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
-        Timber.e(exception)
-        // todo coroutine exception
-    }
+
     private val connectionExceptionHandler = CoroutineExceptionHandler { _, exception ->
         Timber.e(exception)
         closeConnection()
@@ -67,9 +61,15 @@ class NetworkRepositoryImpl {
     }
 
     private fun closeConnection() {
-        inStream = null
-        outStream = null
-        socket = null
+        try {
+            socket?.close()
+        } catch (e: IOException) {
+            Timber.e(e)
+        } finally {
+            inStream = null
+            outStream = null
+            socket = null
+        }
     }
 
     val loginSubject: PublishSubject<BaseResponse<TestCode>> = PublishSubject.create()
@@ -195,7 +195,6 @@ class NetworkRepositoryImpl {
         })
     }
 
-    private var currentuser = 0
     suspend fun getMessages(token: String, roomId: Long) {
         formRequestObject("get_messages", JSONObject().apply {
             put("token", token)
@@ -217,12 +216,7 @@ class NetworkRepositoryImpl {
             put("phone_numbers",
                 JSONArray().also { jArray ->
                     array.forEach { number ->
-                        jArray.put(JSONObject().apply {
-                            put(
-                                "number",
-                                number
-                            )
-                        })
+                        jArray.put(JSONObject().apply { put("number", number) })
                     }
                 })
         })
@@ -237,15 +231,19 @@ class NetworkRepositoryImpl {
     }
 
     private suspend fun sendToServer(data: JSONObject) {
-        Timber.d("requested $data socket: ${socket?.isConnected}")
+        Timber.d("requested $data socket: $socket")
         withContext(Dispatchers.IO) {
             outStream?.write("$data\n".toByteArray())
         }
     }
 
     private class TypeTokensList {
-        val typeCode: Type by lazy { object : TypeToken<BaseResponse<TestCode>>() {}.type }
-        val typeToken: Type by lazy { object : TypeToken<BaseResponse<Token>>() {}.type }
+        val typeCode: Type by lazy {
+            object : TypeToken<BaseResponse<TestCode>>() {}.type
+        }
+        val typeToken: Type by lazy {
+            object : TypeToken<BaseResponse<Token>>() {}.type
+        }
         val typeRoomsList: Type by lazy {
             object : TypeToken<BaseResponse<Map<String, List<Room>>>>() {}.type
         }
