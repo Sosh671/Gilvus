@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.soshdev.gilvus.MainActivity
 import com.soshdev.gilvus.R
 import com.soshdev.gilvus.databinding.FragmentNewroomBinding
 import com.soshdev.gilvus.ui.base.BaseFragment
@@ -50,8 +52,20 @@ class NewRoomFragment : BaseFragment() {
 
         vm.validatedContacts.observe(viewLifecycleOwner, Observer { adapter.replace(it) })
         vm.roomTitle.observe(viewLifecycleOwner, Observer { binding.edTitle.setText(it) })
+        vm.createRoomStatus.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                (activity as? MainActivity)?.showSnackbar(R.string.room_created)
+                findNavController().navigateUp()
+            }
+            else
+                binding.appBar.showSnackbar(R.string.error_creating_room)
+        })
 
-        binding.fabSave.setOnClickListener { vm.addRoom() }
+        binding.fabSave.setOnClickListener {
+            userToken?.let {
+                vm.createRoom(it, binding.edTitle.text?.toString() ?: getString(R.string.new_room))
+            }
+        }
     }
 
     private fun initRecyclerView() = with(binding) {

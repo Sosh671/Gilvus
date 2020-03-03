@@ -11,9 +11,11 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
 import com.soshdev.gilvus.databinding.ActivityMainBinding
 import com.soshdev.gilvus.ui.base.SharedViewModel
 import com.soshdev.gilvus.util.Constants
+import com.soshdev.gilvus.util.showSnackbar
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -54,6 +56,10 @@ class MainActivity : AppCompatActivity() {
         binding.drawerSwitch.isChecked = sharedViewModel.host == Constants.emulatorLocalHost
         binding.drawerSwitch.setOnCheckedChangeListener { _, _ -> sharedViewModel.toggleHostAndReconnect() }
         binding.drawerBtn.setOnClickListener { sharedViewModel.reconnect() }
+    }
+
+    fun showSnackbar(resId: Int, duration: Int = Snackbar.LENGTH_SHORT) {
+        binding.drawerSwitch.showSnackbar(resId, duration)
     }
 
     fun setupToolbar(toolbar: Toolbar, title: String?) {

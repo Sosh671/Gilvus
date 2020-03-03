@@ -23,6 +23,9 @@ class NewRoomViewModel(private val dbRepository: DbRepository) : BaseViewModel()
     private val _validatedContacts = MutableLiveData<List<User>>()
     val validatedContacts: LiveData<List<User>> = _validatedContacts
 
+    private val _createRoomStatus = MutableLiveData<Boolean>()
+    val createRoomStatus: LiveData<Boolean> = _createRoomStatus
+
     init {
         disposables += networkRepository.checkContactsSubject
             .subscribeBy(
@@ -50,6 +53,16 @@ class NewRoomViewModel(private val dbRepository: DbRepository) : BaseViewModel()
                     //todo on error
                 }
             )
+        disposables += networkRepository.createRoomSubject
+            .subscribeBy(
+                onNext = {
+                    _createRoomStatus.postValue(it.status)
+                },
+                onError = {
+                    Timber.e(it)
+                    //todo on error
+                }
+            )
     }
 
     fun checkMyContactsExist(token: String, contacts: List<User>) {
@@ -64,8 +77,14 @@ class NewRoomViewModel(private val dbRepository: DbRepository) : BaseViewModel()
         }
     }
 
-    fun addRoom() {
-        val title = roomTitle.value ?: return
+    fun createRoom(token: String, title: String) {
+        viewModelScope.launchOnIO {
+            networkRepository.createRoom(
+                token,
+                title,
+                selectedContacts.mapNotNull { it.id }.toTypedArray()
+            )
+        }
     }
 
     fun selectContact(contact: User) {

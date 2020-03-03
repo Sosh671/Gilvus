@@ -30,4 +30,6 @@
     <string name="retry">Retry</string>
     <string name="new_room">New room</string>
     <string name="contact_not_registered">This contact is not registered in Gilvus</string>
+    <string name="room_created">Room created</string>
+    <string name="error_creating_room">Error creating the room</string>
 </resources>

@@ -4,7 +4,10 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.soshdev.gilvus.data.db.models.Message
 import com.soshdev.gilvus.data.db.models.Room
-import com.soshdev.gilvus.data.models.*
+import com.soshdev.gilvus.data.models.BaseResponse
+import com.soshdev.gilvus.data.models.IdAndPhone
+import com.soshdev.gilvus.data.models.TestCode
+import com.soshdev.gilvus.data.models.Token
 import com.soshdev.gilvus.util.Constants
 import io.reactivex.subjects.PublishSubject
 import kotlinx.coroutines.*
@@ -77,7 +80,7 @@ class NetworkRepositoryImpl {
     val registrationSubject: PublishSubject<BaseResponse<TestCode>> = PublishSubject.create()
     val confirmRegistrationSubject: PublishSubject<BaseResponse<Token>> = PublishSubject.create()
     val getRoomsSubject: PublishSubject<BaseResponse<List<Room>>> = PublishSubject.create()
-    val createRoomSubject: PublishSubject<BaseResponse<Id>> = PublishSubject.create()
+    val createRoomSubject: PublishSubject<BaseResponse<Int>> = PublishSubject.create()
     val getMessagesSubject: PublishSubject<BaseResponse<List<Message>>> = PublishSubject.create()
     val checkContactsSubject: PublishSubject<BaseResponse<List<IdAndPhone>>> =
         PublishSubject.create()
@@ -112,7 +115,8 @@ class NetworkRepositoryImpl {
                     getRoomsSubject.onNext(new)
                 }
                 "add_room" -> {
-//                    createRoomSubject.onNext(gson.fromJson(response, typeTokensList.typeRoom))
+                    // doesn't matter what type token to use
+                    createRoomSubject.onNext(gson.fromJson(response, typeTokensList.typeToken))
                 }
                 "get_messages" -> {
                     val old: BaseResponse<Map<String, List<Message>>> =
@@ -187,11 +191,15 @@ class NetworkRepositoryImpl {
         })
     }
 
-    suspend fun createRoom(token: String, title: String, members: List<Id>) {
+    suspend fun createRoom(token: String, title: String, members: Array<Long>) {
         formRequestObject("add_room", JSONObject().apply {
             put("token", token)
             put("title", title)
-            put("members", JSONArray(members))
+            put("members", JSONArray().also { jArray ->
+                members.forEach { number ->
+                    jArray.put(JSONObject().apply { put("id", number) })
+                }
+            })
         })
     }
 
@@ -213,12 +221,11 @@ class NetworkRepositoryImpl {
     suspend fun checkContacts(token: String, array: Array<String>) {
         formRequestObject("check_contacts", JSONObject().apply {
             put("token", token)
-            put("phone_numbers",
-                JSONArray().also { jArray ->
-                    array.forEach { number ->
-                        jArray.put(JSONObject().apply { put("number", number) })
-                    }
-                })
+            put("phone_numbers", JSONArray().also { jArray ->
+                array.forEach { number ->
+                    jArray.put(JSONObject().apply { put("number", number) })
+                }
+            })
         })
     }
 
