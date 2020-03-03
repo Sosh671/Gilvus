@@ -46,20 +46,20 @@ class NetworkRepositoryImpl {
         GlobalScope.launch(connectionExceptionHandler) {
             withContext(Dispatchers.IO) {
                 socket = Socket()
-                socket!!.connect(
-                    InetSocketAddress(host, Constants.port),
-                    timeoutSize
-                )
-                outStream = socket!!.getOutputStream()
-                inStream = socket!!.getInputStream()
+                socket!!.connect(InetSocketAddress(host, Constants.port), timeoutSize)
                 Timber.d("socket $socket")
 
+                outStream = socket!!.getOutputStream()
+                inStream = socket!!.getInputStream()
                 val reader = BufferedReader(InputStreamReader(inStream!!))
+
+                // send false to indicate that the connection is successful
+                socketExceptionSubject.onNext(false)
+
                 var line = reader.readLine()
                 while (line != null) {
                     Timber.d("received from server: $line")
                     handleServerResponse(line)
-
                     line = reader.readLine()
                 }
             }

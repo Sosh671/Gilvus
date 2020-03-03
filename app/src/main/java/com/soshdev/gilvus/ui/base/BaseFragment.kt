@@ -8,10 +8,11 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.soshdev.gilvus.MainActivity
 import com.soshdev.gilvus.R
 import com.soshdev.gilvus.util.PrefsHelper
-import com.soshdev.gilvus.util.showSnackbar
+import com.soshdev.gilvus.util.createSnackbar
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 open class BaseFragment : Fragment() {
@@ -43,12 +44,20 @@ open class BaseFragment : Fragment() {
         sharedViewModel.clearErrors()
     }
 
+    private var snackbar: Snackbar? = null
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         sharedViewModel.serverConnectionLost.observe(viewLifecycleOwner, Observer {
             if (it)
-                view.showSnackbar(R.string.server_connection_lost, actionText = R.string.retry,
-                    actionListener = View.OnClickListener { sharedViewModel.reconnect() })
+                snackbar = view.createSnackbar(
+                    R.string.server_connection_lost,
+                    actionText = R.string.retry,
+                    actionListener = View.OnClickListener { sharedViewModel.reconnect() }
+                ).apply { show() }
+            else
+                snackbar?.run { if (isShown) dismiss() }
+
         })
     }
 

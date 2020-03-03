@@ -25,16 +25,25 @@ fun CoroutineScope.launchOnIO(
     }
 }
 
+fun View.createSnackbar(
+    resId: Int,
+    duration: Int = Snackbar.LENGTH_SHORT,
+    actionText: Int? = null,
+    actionListener: View.OnClickListener? = null
+): Snackbar {
+    val snack = Snackbar.make(this, this.context.applicationContext.getText(resId), duration)
+    if (actionText != null && actionListener != null)
+        snack.setAction(actionText, actionListener)
+    return snack
+}
+
 fun View.showSnackbar(
     resId: Int,
     duration: Int = Snackbar.LENGTH_SHORT,
     actionText: Int? = null,
     actionListener: View.OnClickListener? = null
 ) {
-    val snack = Snackbar.make(this, this.context.applicationContext.getText(resId), duration)
-    if (actionText != null && actionListener != null)
-        snack.setAction(actionText, actionListener)
-    snack.show()
+    this.createSnackbar(resId, duration, actionText, actionListener).show()
 }
 
 fun String.compareRawPhoneNumbers(number: String) = this.dirtyStringToNumbers() == number.dirtyStringToNumbers()
