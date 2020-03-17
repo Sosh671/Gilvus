@@ -82,6 +82,7 @@ class NetworkRepositoryImpl {
     val getRoomsSubject: PublishSubject<BaseResponse<List<Room>>> = PublishSubject.create()
     val createRoomSubject: PublishSubject<BaseResponse<Int>> = PublishSubject.create()
     val getMessagesSubject: PublishSubject<BaseResponse<List<Message>>> = PublishSubject.create()
+    val newMessageSubject: PublishSubject<BaseResponse<Message>> = PublishSubject.create()
     val checkContactsSubject: PublishSubject<BaseResponse<List<IdAndPhone>>> =
         PublishSubject.create()
 
@@ -130,7 +131,8 @@ class NetworkRepositoryImpl {
                     )
                     getMessagesSubject.onNext(new)
                 }
-                "send_message" -> {
+                "new_message" -> {
+                    newMessageSubject.onNext(gson.fromJson(response, typeTokensList.typeMessage))
                 }
                 "check_contacts" -> {
                     val old: BaseResponse<Map<String, List<IdAndPhone>>> =
@@ -211,7 +213,7 @@ class NetworkRepositoryImpl {
     }
 
     suspend fun sendMessage(token: String, roomId: Long, message: String) {
-        formRequestObject("get_messages", JSONObject().apply {
+        formRequestObject("send_message", JSONObject().apply {
             put("token", token)
             put("room_id", roomId)
             put("message", message)
@@ -253,6 +255,9 @@ class NetworkRepositoryImpl {
         }
         val typeRoomsList: Type by lazy {
             object : TypeToken<BaseResponse<Map<String, List<Room>>>>() {}.type
+        }
+        val typeMessage: Type by lazy {
+            object : TypeToken<BaseResponse<Message>>() {}.type
         }
         val typeMessagesList: Type by lazy {
             object : TypeToken<BaseResponse<Map<String, List<Message>>>>() {}.type

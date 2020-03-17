@@ -12,7 +12,7 @@ import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
 import timber.log.Timber
 
-class RoomViewModel(private val dbRepository: DbRepository): BaseViewModel() {
+class RoomViewModel(private val dbRepository: DbRepository) : BaseViewModel() {
 
     private val _messages = MutableLiveData<List<Message>>()
     val messages: LiveData<List<Message>> = _messages
@@ -33,21 +33,44 @@ class RoomViewModel(private val dbRepository: DbRepository): BaseViewModel() {
                     //todo on error
                 }
             )
+        disposables += networkRepository.newMessageSubject
+            .subscribeBy(
+                onNext = {
+                    if (it.status) {
+                        val array = _messages.value as? ArrayList<Message>?: ArrayList()
+                        it.data?.let { message ->  array.add(message) }
+                        _messages.value = array
+                    }
+
+                    // todo else
+                },
+                onError = {
+                    Timber.e(it)
+                    //todo on error
+                }
+            )
     }
 
-    fun getMessages(roomId: Long) {
+    fun sendMessage(token: String, roomId: Long, message: String) {
+        viewModelScope.launchOnIO {
+            networkRepository.sendMessage(token, roomId, message)
+        }
+    }
+
+    fun getMessages(token: String, roomId: Long) {
         disposables += dbRepository.getMessages(roomId).subscribeBy(
             onSuccess = {
                 _messages.value = it
+                fetchMessagesFromNetwork(token, roomId)
             },
             onError = {
+                fetchMessagesFromNetwork(token, roomId)
                 Timber.e(it)
-                // todo on error
             }
         )
     }
 
-    fun fetchMessagesFromNetwork(token: String, roomId: Long) {
+    private fun fetchMessagesFromNetwork(token: String, roomId: Long) {
         viewModelScope.launchOnIO {
             networkRepository.getMessages(token, roomId)
         }

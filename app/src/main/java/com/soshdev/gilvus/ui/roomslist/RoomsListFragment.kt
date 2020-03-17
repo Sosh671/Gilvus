@@ -18,7 +18,7 @@ class RoomsListFragment : BaseFragment() {
     private val adapter =
         RoomsListAdapter {
             findNavController().navigate(
-                RoomsListFragmentDirections.chatDestination(it ?: return@RoomsListAdapter)
+                RoomsListFragmentDirections.roomDestination(it ?: return@RoomsListAdapter)
             )
         }
 

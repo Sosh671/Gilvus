@@ -56,8 +56,8 @@
         tools:layout="@layout/fragment_rooms_list">
 
         <action
-            android:id="@+id/chat_destination"
-            app:destination="@+id/chat" />
+            android:id="@+id/room_destination"
+            app:destination="@+id/room" />
 
         <action
             android:id="@+id/new_room_destination"
@@ -66,12 +66,12 @@
     </fragment>
 
     <fragment
-        android:id="@+id/chat"
+        android:id="@+id/room"
         android:name="com.soshdev.gilvus.ui.room.RoomFragment"
         tools:layout="@layout/fragment_room">
 
         <argument
-            android:name="user_id"
+            android:name="room_id"
             app:argType="long" />
 
     </fragment>

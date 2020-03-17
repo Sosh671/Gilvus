@@ -34,8 +34,13 @@ class RoomFragment : BaseFragment() {
 
         vm.messages.observe(viewLifecycleOwner, Observer { adapter.replace(it) })
 
-        vm.getMessages(args.userId)
-        prefsHelper.getToken()?.let { vm.fetchMessagesFromNetwork(it, args.userId) }
+        prefsHelper.getToken()?.let { vm.getMessages(it, args.roomId) }
+
+        binding.btnSendMessage.setOnClickListener {
+            val text = binding.edMessage.text?.toString() ?: return@setOnClickListener
+            if (text.isNotBlank())
+                prefsHelper.getToken()?.let { token -> vm.sendMessage(token, args.roomId, text) }
+        }
     }
 
     private fun initRecyclerView() = with(binding) {
