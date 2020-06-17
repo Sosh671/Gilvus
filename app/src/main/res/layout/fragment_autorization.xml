@@ -92,6 +92,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:text="emulator host"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/test_switch"
         app:layout_constraintEnd_toStartOf="@id/test_switch"
         app:layout_constraintTop_toTopOf="@id/test_switch" />
@@ -100,6 +101,7 @@
         android:id="@+id/test_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:layout_margin="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

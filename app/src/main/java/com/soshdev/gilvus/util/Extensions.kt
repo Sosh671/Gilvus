@@ -37,6 +37,27 @@ fun View.createSnackbar(
     return snack
 }
 
+fun View.createSnackbar(
+    text: String,
+    duration: Int = Snackbar.LENGTH_SHORT,
+    actionText: Int? = null,
+    actionListener: View.OnClickListener? = null
+): Snackbar {
+    val snack = Snackbar.make(this, text, duration)
+    if (actionText != null && actionListener != null)
+        snack.setAction(actionText, actionListener)
+    return snack
+}
+
+fun View.showSnackbar(
+    text: String,
+    duration: Int = Snackbar.LENGTH_SHORT,
+    actionText: Int? = null,
+    actionListener: View.OnClickListener? = null
+) {
+    this.createSnackbar(text, duration, actionText, actionListener).show()
+}
+
 fun View.showSnackbar(
     resId: Int,
     duration: Int = Snackbar.LENGTH_SHORT,

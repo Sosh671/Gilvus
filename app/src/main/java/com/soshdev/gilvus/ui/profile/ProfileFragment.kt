@@ -34,14 +34,14 @@ class ProfileFragment : BaseFragment() {
 
         setupToolbar(binding.toolbar, R.string.home)
 
-        binding.btnApply.setOnClickListener {
-            // todo server testing
-            GlobalScope.launch(Dispatchers.IO) {
-                try {
-                    val socket = Socket()
-                    socket.connect(InetSocketAddress(Constants.emulatorLocalHost, Constants.port))
-                } catch (e: Exception) {}
-            }
-        }
+//        binding.btnApply.setOnClickListener {
+//            // todo server testing
+//            GlobalScope.launch(Dispatchers.IO) {
+//                try {
+//                    val socket = Socket()
+//                    socket.connect(InetSocketAddress(Constants.emulatorLocalHost, Constants.port))
+//                } catch (e: Exception) {}
+//            }
+//        }
     }
 }

@@ -12,8 +12,11 @@ import com.soshdev.gilvus.data.AuthorizationState
 import com.soshdev.gilvus.databinding.FragmentAutorizationBinding
 import com.soshdev.gilvus.ui.base.BaseFragment
 import com.soshdev.gilvus.util.Constants
+import com.soshdev.gilvus.util.begone
 import com.soshdev.gilvus.util.showKeyboard
+import com.soshdev.gilvus.util.showSnackbar
 import org.koin.android.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 class AuthorizationFragment : BaseFragment() {
 
@@ -47,12 +50,17 @@ class AuthorizationFragment : BaseFragment() {
                 vm.testClear()
             }
         })
+//        vm.clearErrors()
+//        vm.errors.observe(viewLifecycleOwner, Observer {
+//            binding.root.showSnackbar(it)
+//        })
         initUI()
         testPutPhone()
 
         // todo for testing
-        binding.testSwitch.isChecked = sharedViewModel.host == Constants.emulatorLocalHost
-        binding.testSwitch.setOnCheckedChangeListener { _, _ -> sharedViewModel.toggleHostAndReconnect() }
+//        binding.testSwitch.isChecked = sharedViewModel.host == Constants.emulatorLocalHost
+//        binding.testSwitch.setOnCheckedChangeListener { _, _ -> sharedViewModel.toggleHostAndReconnect() }
+        sharedViewModel.reconnect()
     }
 
     private fun initUI() {
@@ -97,6 +105,6 @@ class AuthorizationFragment : BaseFragment() {
     }
 
     private fun testPutPhone() {
-        binding.loginField.setText("123123123")
+        binding.loginField.setText("2020")
     }
 }

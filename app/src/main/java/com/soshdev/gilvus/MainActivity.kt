@@ -53,8 +53,8 @@ class MainActivity : AppCompatActivity() {
 
         // todo for testing remove later
         binding.switchLayout.setOnClickListener { binding.drawerSwitch.toggle() }
-        binding.drawerSwitch.isChecked = sharedViewModel.host == Constants.emulatorLocalHost
-        binding.drawerSwitch.setOnCheckedChangeListener { _, _ -> sharedViewModel.toggleHostAndReconnect() }
+//        binding.drawerSwitch.isChecked = sharedViewModel.host == Constants.emulatorLocalHost
+//        binding.drawerSwitch.setOnCheckedChangeListener { _, _ -> sharedViewModel.toggleHostAndReconnect() }
         binding.drawerBtn.setOnClickListener { sharedViewModel.reconnect() }
     }
 

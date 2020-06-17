@@ -21,7 +21,7 @@ class ConfirmViewModel(private val prefsHelper: PrefsHelper) : BaseViewModel() {
                 if (it.status) {
                     it.data?.token?.let { token ->
                         prefsHelper.putToken(token)
-                        _successfulAuthorization.value = true
+                        _successfulAuthorization.postValue(true)
                     }
                 }
                 //todo else
