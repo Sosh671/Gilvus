@@ -11,4 +11,12 @@
             android:title="@string/menu_home" />
     </group>
 
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/exit"
+            android:icon="@android:drawable/ic_delete"
+            android:iconTint="@android:color/black"
+            android:title="@string/exit" />
+    </group>
+
 </menu>

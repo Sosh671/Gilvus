@@ -6,7 +6,10 @@
     app:startDestination="@id/authorization">
 
     <action android:id="@+id/global_authorization_destination"
-        app:destination="@+id/authorization" />
+        app:destination="@+id/authorization"
+        app:launchSingleTop="true"
+        app:popUpTo="@+id/mobile_navigation"
+        app:popUpToInclusive="true"/>
 
     <fragment
         android:id="@+id/authorization"

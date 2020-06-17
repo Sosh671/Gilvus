@@ -10,7 +10,7 @@ class PrefsHelper(private val context: Context) {
     private val prefs =
         context.applicationContext.getSharedPreferences(prefsName, Context.MODE_PRIVATE)
 
-    fun putToken(token: String) {
+    fun putToken(token: String?) {
         prefs.edit {
             putString(keyToken, token)
             commit()

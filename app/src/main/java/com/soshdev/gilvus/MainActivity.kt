@@ -4,9 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
-import androidx.navigation.NavController
-import androidx.navigation.NavOptions
-import androidx.navigation.findNavController
+import androidx.navigation.*
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
@@ -15,6 +13,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.soshdev.gilvus.databinding.ActivityMainBinding
 import com.soshdev.gilvus.ui.base.SharedViewModel
 import com.soshdev.gilvus.util.Constants
+import com.soshdev.gilvus.util.PrefsHelper
 import com.soshdev.gilvus.util.showSnackbar
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -84,11 +83,12 @@ class MainActivity : AppCompatActivity() {
         binding.navView.setupWithNavController(navController)
         binding.navView.setNavigationItemSelectedListener { menuItem ->
             return@setNavigationItemSelectedListener when (menuItem.itemId) {
-//                R.id.exit -> {
-//                    setDrawerState(open = false)
-//                    viewModel.logout()
-//                    true
-//                }
+                R.id.exit -> {
+                    binding.drawerLayout.closeDrawer(GravityCompat.START)
+                    PrefsHelper(this.applicationContext).putToken(null)
+                    navController.navigate(R.id.global_authorization_destination)
+                    true
+                }
                 else -> {
                     if (!menuItem.isChecked) {
                         val options = NavOptions.Builder()
